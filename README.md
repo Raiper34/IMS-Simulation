@@ -1,0 +1,1 @@
+Projekt do IMS - Tema : Aplikacia celularnych automatov v biologii
