@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     //TODO
     cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << time << endl;
 
-    areaCells allCells(size);
+    areaCells allCells(size, infectionTime, imunityTime);
 
     for(int i = 0; i < time; i++){
         allCells.updateMatrices();
