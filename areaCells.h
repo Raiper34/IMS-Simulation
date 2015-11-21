@@ -16,6 +16,7 @@ public:
     ~areaCells(void);       //Destruktor
 
     int width;
+    int time;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;
 };
