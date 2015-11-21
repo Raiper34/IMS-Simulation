@@ -5,14 +5,19 @@
 #ifndef IMS_PROJEKT_CELLS_H
 #define IMS_PROJEKT_CELLS_H
 
+#include "cell.h"
+#include <vector>
+
 using namespace std;
 
 class areaCells {
 public:
-    //Konstruktor
-    areaCells(void);
-    //Destruktor
-    ~areaCells(void);
+    areaCells(int size);        //Konstruktor
+    ~areaCells(void);       //Destruktor
+
+    int width;
+    std::vector<cell> matrixPresent;
+    std::vector<cell> matrixFuture;
 };
 
 

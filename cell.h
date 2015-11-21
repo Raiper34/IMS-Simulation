@@ -9,7 +9,7 @@ using namespace std;
 
 class cell {
 public:
-    cell(int id);
+    cell(void);
     ~cell(void);
 
     int popScik; //Population sickness =  infected population/ total population

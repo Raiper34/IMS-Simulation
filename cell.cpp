@@ -4,7 +4,7 @@
 
 #include "cell.h"
 
-cell::cell(int id){
+cell::cell(void){
     int popScik = 0; //Population sickness =  infected population/ total population
     int inf = 0;    //infection flag
     int imf = 0;    //immune flag
