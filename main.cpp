@@ -1,49 +1,58 @@
 #include <iostream>
-
-#define RIADOK 5
-#define STLPEC 5
+#include <getopt.h>
 
 using namespace std;
 
-/*
- * Bunka struktura
- * todo
- */
-struct bunka
-{
-    int hodnota;
-};
+#define FAULT 1 //exit code, no success
+#define SUCCESS 0 //exit code on success
+#define BLANK -1 //argument is blank
 
-/*
- * Dalsia faza jeden cyklus
- * todo
- */
-int aktualizuj(bunka poleBuniek[RIADOK][STLPEC], bunka pomocnePoleBuniek[RIADOK][STLPEC])
+void printHelp()
 {
-    //Aplikujem pre danu bundku pravidlo a ulozim do pomocneho pola buniek
-    for(int i = 0; i < RIADOK; i++)
-    {
-        for(int j = 0; j < STLPEC; j++)
-        {
-            //todo pomocnePoleBuniek[i][j] = nieco(poleBuniek[i][j]);
-        }
-    }
-    //Ulozim nove bunky do pola buniek
-    for(int i = 0; i < RIADOK; i++)
-    {
-        for(int j = 0; j < STLPEC; j++)
-        {
-            poleBuniek[i][j] = pomocnePoleBuniek[i][j];
-        }
-    }
+    cout << "<<HELP TODO>>" << endl;
+    return;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    cout << "hello world" << endl;
-    bunka poleBuniek[RIADOK][STLPEC];
-    bunka pomocnePoleBuniek[RIADOK][STLPEC];
-    aktualizuj(poleBuniek, pomocnePoleBuniek);
+    int c; //variable for iteration trought comand line parameters, hold last parameter
+    char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    return 0;
+    int infectionTime = BLANK;
+    int imunityTime = BLANK;
+    int time = BLANK;
+
+    while((c = getopt(argc, argv, "n:m:t:h")) != -1) //iterate trought all parameters of comand line
+    {
+        switch (c)
+        {
+            case 'n': //infection argument
+                infectionTime = atoi(optarg);
+                break;
+            case 'm': //imunity argument
+                imunityTime = atoi(optarg);
+                break;
+            case 't': //time argument
+                time = atoi(optarg);
+                break;
+            case 'h': //time argument
+                printHelp();
+                return SUCCESS;
+            case '?': //somethink unkown as value
+                cerr << "Unkown option -" << (char) optopt << "! Type -h for help!" << endl;
+                return FAULT;
+            default: //somethink unkown
+                return FAULT;
+        }
+    }
+    if(infectionTime == BLANK || imunityTime == BLANK || time == BLANK) //check if setings from parameters are not blank
+    {
+        cerr << "Invalid arguments! Type -h for help!" << endl;
+        return FAULT;
+    }
+
+    //TODO
+    cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << time << endl;
+
+    return SUCCESS;
 }
