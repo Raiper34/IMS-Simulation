@@ -11,12 +11,13 @@ class cell {
 public:
     cell(int id);
     ~cell(void);
-    int cellId;
-    int S;                  //Susceptible - healthy cell
-    int I;                  //Inficated and sick
-    int R;                  //Recovered
-    int incubationTime;     //Doba inkubacie
-    int sicknessTime;       //Doba choroby
+
+    int p; // infected population/ total population
+    int inf; //infection flag
+    int imf; //immune flag
+    int tIn; //time infected
+    int tIm; //time immune
+
 };
 
 
