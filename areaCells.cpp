@@ -3,14 +3,15 @@
 //
 
 #include "areaCells.h"
+
 areaCells::areaCells(int size) {
-    width = a;
+    width = size;
     time = 0;
     matrixPresent.reserve(width);
     matrixFuture.reserve(width);
 }
 
-areaCells::fillMatrix(){
+void areaCells::fillMatrix(void){
     cell tmpCell;
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
@@ -20,7 +21,17 @@ areaCells::fillMatrix(){
     }
 }
 
-areaCells::updateMatrices(){
+void areaCells::updateMatrices(void){
+
+}
+
+/*
+ * Evolve cell to next stage depends on rules
+ * @i   vertical position in vector
+ * @j   horizontal position in vector
+ */
+void areaCells::evolve(int i, int j)
+{
 
 }
 

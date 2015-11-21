@@ -13,6 +13,9 @@ using namespace std;
 class areaCells {
 public:
     areaCells(int size);        //Konstruktor
+    void fillMatrix(void);
+    void updateMatrices(void);
+    void evolve(int, int);
     ~areaCells(void);       //Destruktor
 
     int width;
