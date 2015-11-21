@@ -26,6 +26,7 @@ void areaCells::fillMatrix(void){
 }
 
 void areaCells::updateMatrices(void){
+    cell temp;
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
             this->evolve(i, j);
@@ -35,7 +36,11 @@ void areaCells::updateMatrices(void){
     //Copy the Future matrix to Present matrix after calculations
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
-            this->matrixPresent[i + j + this->width];
+            //TODO: Check me
+            this->matrixPresent[i + j + this->width] = this->matrixFuture[i + j + this->width];
+
+            temp = this->matrixFuture[i + j + this->width];
+            this->matrixPresent[i + j + this->width].setData(temp.popSick, )
         }
     }
 }

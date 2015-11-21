@@ -15,13 +15,12 @@ cell::cell(){
     width;
 };
 
-void cell::setData(int popSick, int inf, int imf, int tIn, int tIm, int width){
+void cell::setData(int popSick, int inf, int imf, int tIn, int tIm){
     this->popSick = popSick;
     this->inf = inf;
     this->imf = imf;
     this->tIn = tIn;
     this->tIm = tIm;
-    this->width = width;
 }
 
 void cell::setPostion(int i, int j){

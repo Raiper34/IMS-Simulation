@@ -11,7 +11,7 @@ class cell {
 public:
     cell();
     ~cell(void);
-    void setData(int popSick, int inf, int imf, int tIn, int tIm, int width);
+    void setData(int popSick, int inf, int imf, int tIn, int tIm);
     void setPostion(int i, int j);
 
     int popSick; //Population sickness =  infected population/ total population
