@@ -29,11 +29,6 @@ void cell::setPostion(int i, int j){
     this->j = j;
 };
 
-int cell::getPopSick(void)
-{
-
-}
-
 cell::~cell(){
 
 };

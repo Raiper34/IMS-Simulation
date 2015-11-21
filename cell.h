@@ -11,9 +11,8 @@ class cell {
 public:
     cell();
     ~cell(void);
-    void setData(int popScik, int inf, int imf, int tIn, int tIm, int width);
+    void setData(int popSick, int inf, int imf, int tIn, int tIm, int width);
     void setPostion(int i, int j);
-    int getPopSick(void);
 
     int popSick; //Population sickness =  infected population/ total population
     int inf;    //infection flag
