@@ -15,8 +15,10 @@ areaCells::areaCells(int width, int infectionTime, int imunityTime) {
 
 void areaCells::fillMatrix(void){
     cell tmpCell;
+    tmpCell.setData(0,0,0,0,0);
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
+            tmpCell.setPostion(i,j);
             this->matrixPresent.push_back(tmpCell);
             this->matrixFuture.push_back(tmpCell);
         }
@@ -24,7 +26,18 @@ void areaCells::fillMatrix(void){
 }
 
 void areaCells::updateMatrices(void){
+    for(int i = 0; i < this->width; i++){
+        for(int j = 0; j < this->width; j++){
+            this->evolve(i, j);
+        }
+    }
 
+    //Copy the Future matrix to Present matrix after calculations
+    for(int i = 0; i < this->width; i++){
+        for(int j = 0; j < this->width; j++){
+            this->matrixPresent[i + j + this->width];
+        }
+    }
 }
 
 /*

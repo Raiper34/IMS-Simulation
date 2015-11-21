@@ -1,5 +1,6 @@
 #include <iostream>
 #include <getopt.h>
+#include "areaCells.h"
 
 using namespace std;
 
@@ -19,15 +20,19 @@ int main(int argc, char *argv[])
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
     int infectionTime = BLANK;
+    int size = BLANK;
     int imunityTime = BLANK;
     int time = BLANK;
 
-    while((c = getopt(argc, argv, "n:m:t:h")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "s:n:m:t:h")) != -1) //iterate trought all parameters of comand line
     {
         switch (c)
         {
             case 'n': //infection argument
                 infectionTime = atoi(optarg);
+                break;
+            case 's': //infection argument
+                size = atoi(optarg);
                 break;
             case 'm': //imunity argument
                 imunityTime = atoi(optarg);
@@ -45,7 +50,7 @@ int main(int argc, char *argv[])
                 return FAULT;
         }
     }
-    if(infectionTime == BLANK || imunityTime == BLANK || time == BLANK) //check if setings from parameters are not blank
+    if(infectionTime <= BLANK || imunityTime <= BLANK || time <= BLANK || size <= BLANK) //check if setings from parameters are not blank
     {
         cerr << "Invalid arguments! Type -h for help!" << endl;
         return FAULT;
@@ -53,6 +58,12 @@ int main(int argc, char *argv[])
 
     //TODO
     cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << time << endl;
+
+    areaCells allCells(size);
+
+    for(int i = 0; i < time; i++){
+        allCells.updateMatrices();
+    }
 
     return SUCCESS;
 }

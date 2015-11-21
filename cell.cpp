@@ -14,6 +14,19 @@ cell::cell(void){
     int j = 0;      //horizontal position
 };
 
+void cell::setData(int popScik, int inf, int imf, int tIn, int tIm){
+    this->popScik = popScik;
+    this->inf = inf;
+    this->imf = imf;
+    this->tIn = tIn;
+    this->tIm = tIm;
+}
+
+void cell::setPostion(int i, int j){
+    this->i = i;
+    this->j = j;
+};
+
 cell::~cell(){
 
 };
