@@ -40,8 +40,10 @@ int aktualizuj(bunka poleBuniek[RIADOK][STLPEC], bunka pomocnePoleBuniek[RIADOK]
 
 int main()
 {
+    cout << "hello world" << endl;
     bunka poleBuniek[RIADOK][STLPEC];
     bunka pomocnePoleBuniek[RIADOK][STLPEC];
     aktualizuj(poleBuniek, pomocnePoleBuniek);
+
     return 0;
 }

@@ -3,5 +3,5 @@ project(IMS_projekt)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp areaCells.cpp areaCells.h cell.cpp cell.h)
 add_executable(IMS_projekt ${SOURCE_FILES})
