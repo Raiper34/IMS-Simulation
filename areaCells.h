@@ -12,7 +12,7 @@ using namespace std;
 
 class areaCells {
 public:
-    areaCells(int size);        //Konstruktor
+    areaCells(int, int, int);        //Konstruktor
     void fillMatrix(void);
     void updateMatrices(void);
     void evolve(int, int);
@@ -20,6 +20,8 @@ public:
 
     int width;
     int time;
+    int infectionTime;
+    int imunityTime;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;
 };

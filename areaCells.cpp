@@ -4,11 +4,13 @@
 
 #include "areaCells.h"
 
-areaCells::areaCells(int size) {
-    width = size;
+areaCells::areaCells(int width, int infectionTime, int imunityTime) {
+    this->width = width;
     time = 0;
-    matrixPresent.reserve(width);
-    matrixFuture.reserve(width);
+    this->infectionTime = infectionTime;
+    this->imunityTime = imunityTime;
+    matrixPresent.reserve(this->width);
+    matrixFuture.reserve(this->width);
 }
 
 void areaCells::fillMatrix(void){
@@ -32,7 +34,9 @@ void areaCells::updateMatrices(void){
  */
 void areaCells::evolve(int i, int j)
 {
+    //todo vzorecek
 
+    this->matrixPresent[i + j * this->width];
 }
 
 areaCells::~areaCells(void) {
