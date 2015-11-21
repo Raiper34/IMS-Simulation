@@ -7,6 +7,6 @@ areaCells::areaCells(void) {
 
 }
 
-areaCells::~areaCells(void {
+areaCells::~areaCells(void) {
 
 }

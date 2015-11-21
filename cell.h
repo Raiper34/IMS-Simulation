@@ -12,12 +12,13 @@ public:
     cell(int id);
     ~cell(void);
 
-    int p; // infected population/ total population
-    int inf; //infection flag
-    int imf; //immune flag
-    int tIn; //time infected
-    int tIm; //time immune
-
+    int popScik; //Population sickness =  infected population/ total population
+    int inf;    //infection flag
+    int imf;    //immune flag
+    int tIn;    //time infected
+    int tIm;    //time immune
+    int i;      //vertical position
+    int j;      //horizontal position
 };
 
 

@@ -5,12 +5,13 @@
 #include "cell.h"
 
 cell::cell(int id){
-    cellId = id;
-    S = 1;      //every cell is healthy at the start
-    I = 0;           //Inficated and sick
-    R = 0;                  //Recovered
-    incubationTime = 0;     //Doba inkubacie
-    sicknessTime = 0;       //Doba choroby
+    int popScik = 0; //Population sickness =  infected population/ total population
+    int inf = 0;    //infection flag
+    int imf = 0;    //immune flag
+    int tIn = 0;    //time infected
+    int tIm = 0;    //time immune
+    int i = 0;      //vertical position
+    int j = 0;      //horizontal position
 };
 
 cell::~cell(){

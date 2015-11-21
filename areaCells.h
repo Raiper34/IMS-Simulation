@@ -9,9 +9,6 @@ using namespace std;
 
 class areaCells {
 public:
-
-    //Vector of all cells
-
     //Konstruktor
     areaCells(void);
     //Destruktor
