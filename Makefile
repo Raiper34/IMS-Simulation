@@ -2,7 +2,7 @@
 # File:        Makefile
 
 CC              = g++
-CFLAGS         = -g
+CFLAGS         = -g -lGLU -lGL -lglut
 OBJ_FILES      = main.o areaCells.o cell.o
 #LIBRARIES       = -static-libstdc++
 
