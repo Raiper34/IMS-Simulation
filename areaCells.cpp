@@ -17,7 +17,7 @@ areaCells::areaCells(int width, int infectionTime, int imunityTime) {
     matrixFuture.reserve(this->width);
 }
 
-void areaCells::fillMatrix(void){
+void areaCells::fillMatrix(int cmdLine){
     cell tmpCell;
     tmpCell.setData(0,0,0,0,0);
     for(int i = 0; i < this->width; i++){
@@ -31,10 +31,11 @@ void areaCells::fillMatrix(void){
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].inf = 1; //first sick cell in system
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].tIn = 2;
 
-    this->showInCmd();
+    if(cmdLine == 1)
+        this->showInCmd();
 }
 
-void areaCells::updateMatrices(void)
+void areaCells::updateMatrices(int cmdLine)
 {
     cell temp;
     for(int i = 0; i < this->width; i++){
@@ -53,7 +54,8 @@ void areaCells::updateMatrices(void)
             this->matrixPresent[i + j * this->width].setData(temp.popSick, temp.inf, temp.imf, temp.tIn, temp.tIm);
         }
     }
-    this->showInCmd();
+    if(cmdLine == 1)
+        this->showInCmd();
 }
 
 /*
@@ -146,7 +148,6 @@ void areaCells::showInCmd(void)
         cout << "\033[F";
         flush(cout);
     }
-    usleep(1000000);
 }
 
 void areaCells::endShowCmd(void)
