@@ -154,11 +154,11 @@ void areaCells::showInCmd(void)
         {
             if(this->matrixPresent[i + j * this->width].inf == 1) //if cell is infected
             {
-                cout << "\033[0;31mI \033[0m ";
+                cout << "\033[1;31mI \033[0m ";
             }
             else if(this->matrixPresent[i + j * this->width].imf == 1) //cell is imunited
             {
-                cout << "\033[0;32mR \033[0m ";
+                cout << "\033[1;32mR \033[0m ";
             }
             else if(this->matrixPresent[i + j * this->width].vac == 1) //cell is vacinated
             {
@@ -166,7 +166,7 @@ void areaCells::showInCmd(void)
             }
             else //cell is supsceptible
             {
-                cout << "\033[0;34mS \033[0m ";
+                cout << "\033[1;34mS \033[0m ";
             }
         }
         cout << endl;
