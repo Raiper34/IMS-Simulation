@@ -1,6 +1,8 @@
 #include <iostream>
 #include <getopt.h>
 #include <unistd.h>
+#include <stdlib.h>
+
 #include "areaCells.h"
 
 using namespace std;
@@ -61,6 +63,7 @@ int main(int argc, char *argv[])
     cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << time << endl;
 
     areaCells allCells(size, infectionTime, imunityTime);
+    allCells.fillMatrix();
 
     for(int i = 0; i < time; i++){
         allCells.updateMatrices();
