@@ -10,6 +10,7 @@ cell::cell(){
     imf = 0;    //immune flag
     tIn = 0;    //time infected
     tIm = 0;    //time immune
+    vac = 0;
     i = 0;      //vertical position
     j = 0;      //horizontal position
     width;

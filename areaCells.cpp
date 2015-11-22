@@ -31,6 +31,21 @@ void areaCells::fillMatrix(int cmdLine){
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].inf = 1; //first sick cell in system
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].tIn = this->infectionTime;
 
+    //todo test, erase it
+    this->matrixPresent[(this->width/4) + (this->width/4) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 + 1) + (this->width/4) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 - 1) + (this->width/4) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4) + (this->width/4 + 1) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4) + (this->width/4 - 1) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 + 1) + (this->width/4 - 1) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 - 1) + (this->width/4 + 1) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 + 2) + (this->width/4) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 - 2) + (this->width/4) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4) + (this->width/4 + 2) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4) + (this->width/4 - 2) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 + 2) + (this->width/4 - 2) * this->width].vac = 1;
+    this->matrixPresent[(this->width/4 - 2) + (this->width/4 + 2) * this->width].vac = 1;
+
     if(cmdLine == 1)
         this->showInCmd();
 }
@@ -66,9 +81,9 @@ void areaCells::updateMatrices(int cmdLine)
 void areaCells::evolve(int i, int j)
 {
     //todo vzorecek
-    if(this->matrixPresent[i + j * this->width].inf == 0 && this->matrixPresent[i + j * this->width].imf == 0)
+    if(this->matrixPresent[i + j * this->width].inf == 0 && this->matrixPresent[i + j * this->width].imf == 0 && this->matrixPresent[i + j * this->width].vac == 0)
     {
-        if (getInf(i + 1, j) == 1
+        if (getInf(i + 1, j) == 1 //todo equation
             || getInf(i - 1, j) == 1
             || getInf(i, j - 1) == 1
             || getInf(i, j + 1) == 1
@@ -87,7 +102,7 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    else if(this->matrixPresent[i + j * this->width].inf == 1)
+    else if(this->matrixPresent[i + j * this->width].inf == 1) //infected
     {
         this->matrixFuture[i + j * this->width].tIn--;
         if(this->matrixFuture[i + j * this->width].tIn == 0)
@@ -97,7 +112,7 @@ void areaCells::evolve(int i, int j)
             this->matrixFuture[i + j * this->width].inf = 0;
         }
     }
-    else if(this->matrixPresent[i + j * this->width].imf == 1)
+    else if(this->matrixPresent[i + j * this->width].imf == 1) //imunited
     {
         this->matrixFuture[i + j * this->width].tIm--;
         if(this->matrixFuture[i + j * this->width].tIm == 0)
@@ -144,6 +159,10 @@ void areaCells::showInCmd(void)
             else if(this->matrixPresent[i + j * this->width].imf == 1) //cell is imunited
             {
                 cout << "\033[0;32mR \033[0m ";
+            }
+            else if(this->matrixPresent[i + j * this->width].vac == 1) //cell is vacinated
+            {
+                cout << "\033[0;37mV \033[0m ";
             }
             else //cell is supsceptible
             {

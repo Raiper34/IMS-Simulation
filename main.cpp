@@ -60,6 +60,8 @@ void display() {
                     glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
                 else if(allCells.matrixPresent[i + j * allCells.width].imf == 1)
                     glColor3f(0.0f, 1.0f, 0.0f);// Let it be green
+                else if(allCells.matrixPresent[i + j * allCells.width].vac == 1)
+                    glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
                 else
                     glColor3f(0.0f, 0.0f, 1.0f);// Let it be blue
 

@@ -22,6 +22,7 @@ public:
     int i;      //vertical position
     int j;      //horizontal position
     int width;
+    int vac; //vacination flag
 };
 
 
