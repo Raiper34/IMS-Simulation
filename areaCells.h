@@ -15,7 +15,7 @@ using namespace std;
 class areaCells {
 public:
     areaCells(int, int, int);        //Konstruktor
-    void fillMatrix(void);
+    void fillMatrix(int cmdLine);
     void updateMatrices(int);
     void evolve(int, int);
     int getPopSick(int, int);

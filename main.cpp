@@ -36,7 +36,7 @@ void setup() {
 
 void display() {
     areaCells allCells(width, infectionTime, imunityTime);
-    allCells.fillMatrix();
+    allCells.fillMatrix(cmdLine);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -83,7 +83,9 @@ void display() {
         glutSwapBuffers();
         usleep(speed);
     }
-    allCells.endShowCmd();
+
+    if(cmdLine == 1)
+        allCells.endShowCmd();
 }
 
 
@@ -156,7 +158,7 @@ int main(int argc, char *argv[])
     }
     else{
         areaCells allCells(width, infectionTime, imunityTime);
-        allCells.fillMatrix();
+        allCells.fillMatrix(cmdLine);
         for(int i = 0; i < Time; i++){
             allCells.updateMatrices(cmdLine);
             usleep(speed);
