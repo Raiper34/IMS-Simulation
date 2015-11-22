@@ -70,13 +70,14 @@ void display() {
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
                 glEnd();
 
-
+                /*border of the quad
                 glColor3f(0.0f, 0.0f, 0.0f); // Let it be yellow.
                 glBegin(GL_LINE_STRIP);
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
                 glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*i);
                 glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*(i+1));
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
+                */
                 glEnd();
             }
         }
