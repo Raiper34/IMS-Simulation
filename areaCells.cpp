@@ -45,7 +45,7 @@ void areaCells::updateMatrices(void){
             this->matrixPresent[i + j + this->width].setData(temp.popSick, temp.inf, temp.imf, temp.tIn, temp.tIm);
         }
     }
-    //this->showInCmd();
+    this->showInCmd();
 }
 
 /*
@@ -56,7 +56,7 @@ void areaCells::updateMatrices(void){
 void areaCells::evolve(int i, int j)
 {
     //todo vzorecek
-
+    this->getPopSick(0,0);
     this->matrixPresent[i + j * this->width];
 }
 
@@ -78,7 +78,7 @@ void areaCells::showInCmd(void)
     {
         for (int j = 0; j < this->width; j++)
         {
-            cout << " " << this->matrixPresent[i + j + this->width].inf << " ";
+            cout << " \033[0;32m" << this->matrixPresent[i + j + this->width].inf << "\033[0m ";
         }
         cout << endl;
     }
@@ -86,7 +86,16 @@ void areaCells::showInCmd(void)
     {
         cout << "\033[F";
     }
-    usleep(100000);
+    usleep(1000000);
+}
+
+void areaCells::endShowCmd(void)
+{
+    for(int i = 0; i < this->width; i++)
+    {
+        cout << endl;
+    }
+    //cout << endl;
 }
 
 areaCells::~areaCells(void) {

@@ -20,6 +20,7 @@ public:
     void evolve(int, int);
     int getPopSick(int, int);
     void showInCmd(void);
+    void endShowCmd(void);
     ~areaCells(void);       //Destruktor
 
     int width;

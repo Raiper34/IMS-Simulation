@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < time; i++){
         allCells.updateMatrices();
     }
+    allCells.endShowCmd();
 
     //return SUCCESS;
     exit(SUCCESS);
