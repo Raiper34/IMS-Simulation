@@ -34,7 +34,7 @@ void areaCells::fillMatrix(void){
     this->showInCmd();
 }
 
-void areaCells::updateMatrices(void)
+void areaCells::updateMatrices(int cmdLine)
 {
     cell temp;
     for(int i = 0; i < this->width; i++){
@@ -53,7 +53,8 @@ void areaCells::updateMatrices(void)
             this->matrixPresent[i + j * this->width].setData(temp.popSick, temp.inf, temp.imf, temp.tIn, temp.tIm);
         }
     }
-    this->showInCmd();
+    if(cmdLine == 1)
+        this->showInCmd();
 }
 
 /*
@@ -146,7 +147,6 @@ void areaCells::showInCmd(void)
         cout << "\033[F";
         flush(cout);
     }
-    usleep(1000000);
 }
 
 void areaCells::endShowCmd(void)

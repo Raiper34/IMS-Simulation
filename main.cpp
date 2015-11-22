@@ -3,6 +3,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include <GL/glut.h>  // GLUT, include glu.h and gl.h
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 #include "areaCells.h"
 
 using namespace std;
@@ -11,37 +15,107 @@ using namespace std;
 #define SUCCESS 0 //exit code on success
 #define BLANK -1 //argument is blank
 
+//Global variables, needed becouse of display function
+int infectionTime = BLANK;
+int width = BLANK;
+int imunityTime = BLANK;
+int Time = BLANK;
+int graphic = BLANK;
+int cmdLine = BLANK;
+int speed = BLANK;
+
 void printHelp()
 {
     cout << "<<HELP TODO>>" << endl;
     return;
 }
 
+void setup() {
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+void display() {
+    areaCells allCells(width, infectionTime, imunityTime);
+    allCells.fillMatrix();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    for(int t = 0; t < Time; t++){
+        allCells.updateMatrices(cmdLine);
+
+        //DISPLAY THE MATRIX
+        GLfloat minSize = 60.0f/allCells.width;
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0.0, 60, 60, 0.0, -1.0, 1.0);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glViewport(0, 0, 600, 600);
+
+
+        for(int i = 0; i <= allCells.width; i++){
+            for(int j = 0; j <= allCells.width; j++){
+                if (allCells.matrixPresent[i + j * allCells.width].inf == 1)
+                    glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
+                else if(allCells.matrixPresent[i + j * allCells.width].imf == 1)
+                    glColor3f(0.0f, 1.0f, 0.0f);// Let it be green
+                else
+                    glColor3f(0.0f, 0.0f, 1.0f);// Let it be blue
+
+                glBegin(GL_QUADS); // 2x2 pixels
+                glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
+                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*i);
+                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*(i+1));
+                glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
+                glEnd();
+
+
+                glColor3f(0.0f, 0.0f, 0.0f); // Let it be yellow.
+                glBegin(GL_LINE_STRIP);
+                glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
+                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*i);
+                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*(i+1));
+                glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
+                glEnd();
+            }
+        }
+        glutSwapBuffers();
+        usleep(speed);
+    }
+    allCells.endShowCmd();
+}
+
+
 int main(int argc, char *argv[])
 {
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    int infectionTime = BLANK;
-    int size = BLANK;
-    int imunityTime = BLANK;
-    int time = BLANK;
-
-    while((c = getopt(argc, argv, "s:n:m:t:h")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "w:s:n:m:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch (c)
         {
             case 'n': //infection argument
                 infectionTime = atoi(optarg);
                 break;
+            case 'w': //infection argument
+                width = atoi(optarg);
+                break;
             case 's': //infection argument
-                size = atoi(optarg);
+                speed = atoi(optarg);
                 break;
             case 'm': //imunity argument
                 imunityTime = atoi(optarg);
                 break;
             case 't': //time argument
-                time = atoi(optarg);
+                Time = atoi(optarg);
+                break;
+            case 'g': //time argument
+                graphic = 1;
+                break;
+            case 'c': //time argument
+                cmdLine = 1;
                 break;
             case 'h': //time argument
                 printHelp();
@@ -53,22 +127,42 @@ int main(int argc, char *argv[])
                 return FAULT;
         }
     }
-    if(infectionTime <= BLANK || imunityTime <= BLANK || time <= BLANK || size <= BLANK) //check if setings from parameters are not blank
+
+    if(infectionTime <= BLANK || imunityTime <= BLANK || Time <= BLANK || width <= BLANK) //check if setings from parameters are not blank
     {
         cerr << "Invalid arguments! Type -h for help!" << endl;
         return FAULT;
     }
+    if(graphic == BLANK && cmdLine == BLANK)
+        cmdLine = 1;
+    if(speed <= 0 )
+        speed = 1000000;
+    else
+        speed = 1000000/speed;
 
     //TODO
-    cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << time << endl;
+    cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << Time << " S:" << width << endl;
 
-    areaCells allCells(size, infectionTime, imunityTime);
-    allCells.fillMatrix();
+    if(graphic == 1){
+        glutInit(&argc, argv);
+        glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+        glutInitWindowSize(600,600);
+        glutCreateWindow("Hello World");
 
-    for(int i = 0; i < time; i++){
-        allCells.updateMatrices();
+        setup();
+        glutDisplayFunc(display);
+
+        glutMainLoop();
     }
-    allCells.endShowCmd();
+    else{
+        areaCells allCells(width, infectionTime, imunityTime);
+        allCells.fillMatrix();
+        for(int i = 0; i < Time; i++){
+            allCells.updateMatrices(cmdLine);
+            usleep(speed);
+        }
+        allCells.endShowCmd();
+    }
 
     //return SUCCESS;
     exit(SUCCESS);

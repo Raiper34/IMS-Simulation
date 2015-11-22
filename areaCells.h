@@ -16,7 +16,7 @@ class areaCells {
 public:
     areaCells(int, int, int);        //Konstruktor
     void fillMatrix(void);
-    void updateMatrices(void);
+    void updateMatrices(int);
     void evolve(int, int);
     int getPopSick(int, int);
     void showInCmd(void);
