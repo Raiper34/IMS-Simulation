@@ -1,5 +1,6 @@
 #include <iostream>
 #include <getopt.h>
+#include <unistd.h>
 #include "areaCells.h"
 
 using namespace std;
@@ -65,5 +66,6 @@ int main(int argc, char *argv[])
         allCells.updateMatrices();
     }
 
-    return SUCCESS;
+    //return SUCCESS;
+    exit(SUCCESS);
 }

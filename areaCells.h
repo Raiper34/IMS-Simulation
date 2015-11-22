@@ -17,6 +17,7 @@ public:
     void updateMatrices(void);
     void evolve(int, int);
     void getPopSick(int, int);
+    void showInCmd(void);
     ~areaCells(void);       //Destruktor
 
     int width;

@@ -2,6 +2,8 @@
 // Created by marek on 11/21/15.
 //
 
+#include <iostream>
+#include <unistd.h>
 #include "areaCells.h"
 
 areaCells::areaCells(int width, int infectionTime, int imunityTime) {
@@ -43,6 +45,7 @@ void areaCells::updateMatrices(void){
             this->matrixPresent[i + j + this->width].setData(temp.popSick, temp.inf, temp.imf, temp.tIn, temp.tIm);
         }
     }
+    //this->showInCmd();
 }
 
 /*
@@ -60,6 +63,26 @@ void areaCells::evolve(int i, int j)
 void areaCells::getPopSick(int i, int j)
 {
     
+}
+
+/*
+ * Method, that show cells status in comandline over time, comandline animation for debug
+ */
+void areaCells::showInCmd(void)
+{
+    for(int i = 0; i < this->width; i++)
+    {
+        for (int j = 0; j < this->width; j++)
+        {
+            cout << " " << this->matrixPresent[i + j + this->width].inf << " ";
+        }
+        cout << endl;
+    }
+    for(int k = 0; k < this->width; k++)
+    {
+        cout << "\033[F";
+    }
+    usleep(100000);
 }
 
 areaCells::~areaCells(void) {

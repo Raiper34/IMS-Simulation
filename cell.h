@@ -10,7 +10,7 @@ using namespace std;
 class cell {
 public:
     cell();
-    ~cell(void);
+    //~cell(void);
     void setData(int popSick, int inf, int imf, int tIn, int tIm);
     void setPostion(int i, int j);
 

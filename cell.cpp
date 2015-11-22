@@ -28,6 +28,6 @@ void cell::setPostion(int i, int j){
     this->j = j;
 };
 
-cell::~cell(){
+/*cell::~cell(){
 
-};
+};*/
