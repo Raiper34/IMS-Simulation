@@ -29,7 +29,7 @@ void areaCells::fillMatrix(int cmdLine){
     }
 
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].inf = 1; //first sick cell in system
-    this->matrixPresent[(this->width/2) + (this->width/2) * this->width].tIn = 2;
+    this->matrixPresent[(this->width/2) + (this->width/2) * this->width].tIn = this->infectionTime;
 
     if(cmdLine == 1)
         this->showInCmd();
@@ -68,21 +68,21 @@ void areaCells::evolve(int i, int j)
     //todo vzorecek
     if(this->matrixPresent[i + j * this->width].inf == 0 && this->matrixPresent[i + j * this->width].imf == 0)
     {
-        if (this->matrixPresent[(i + 1) + j * this->width].inf == 1
-            || this->matrixPresent[(i - 1) + j * this->width].inf == 1
-            || this->matrixPresent[i + (j - 1) * this->width].inf == 1
-            || this->matrixPresent[i + (j + 1) * this->width].inf == 1
-            || this->matrixPresent[(i + 1) + (j + 1) * this->width].inf == 1
-            || this->matrixPresent[(i + 1) + (j - 1) * this->width].inf == 1
-            || this->matrixPresent[(i - 1) + (j + 1) * this->width].inf == 1
-            || this->matrixPresent[(i - 1) + (j - 1) * this->width].inf == 1)
+        if (getInf(i + 1, j) == 1
+            || getInf(i - 1, j) == 1
+            || getInf(i, j - 1) == 1
+            || getInf(i, j + 1) == 1
+            || getInf(i + 1, j + 1) == 1
+            || getInf(i + 1, j - 1) == 1
+            || getInf(i - 1, j + 1) == 1
+            || getInf(i - 1, j - 1) == 1)
         {
             //srand(NULL);
             int randomNumber = rand() % 10 + 1;
-            if (randomNumber > 5)
+            if (randomNumber > 7)
             {
                 this->matrixFuture[i + j * this->width].inf = 1;
-                this->matrixFuture[i + j * this->width].tIn = 2;
+                this->matrixFuture[i + j * this->width].tIn = this->infectionTime;
 
             }
         }
@@ -93,7 +93,7 @@ void areaCells::evolve(int i, int j)
         if(this->matrixFuture[i + j * this->width].tIn == 0)
         {
             this->matrixFuture[i + j * this->width].imf = 1;
-            this->matrixFuture[i + j * this->width].tIm = 3;
+            this->matrixFuture[i + j * this->width].tIm = this->imunityTime;
             this->matrixFuture[i + j * this->width].inf = 0;
         }
     }
@@ -112,11 +112,20 @@ void areaCells::evolve(int i, int j)
 
 int areaCells::getPopSick(int i, int j)
 {
-    if(i > 0 || j > 0 || i < this->width || j < this->width)
+    if(i < 0 || j < 0 || i > this->width || j > this->width)
     {
         return(NOEXIST);
     }
-    return(this->matrixPresent[i + j + this->width].popSick);
+    return(this->matrixPresent[i + j * this->width].popSick);
+}
+
+int areaCells::getInf(int i, int j)
+{
+    if(i < 0 || j < 0 || i > this->width || j > this->width)
+    {
+        return(NOEXIST);
+    }
+    return(this->matrixPresent[i + j * this->width].inf);
 }
 
 /*

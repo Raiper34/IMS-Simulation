@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
         speed = 1000000/speed;
 
     //TODO
-    cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << Time << " S:" << width << endl;
+    //cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << Time << " S:" << width << endl;
 
     if(graphic == 1){
         glutInit(&argc, argv);
