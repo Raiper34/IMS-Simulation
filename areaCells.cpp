@@ -60,9 +60,13 @@ void areaCells::evolve(int i, int j)
     this->matrixPresent[i + j * this->width];
 }
 
-void areaCells::getPopSick(int i, int j)
+int areaCells::getPopSick(int i, int j)
 {
-    
+    if(i > 0 || j > 0 || i < this->width || j < this->width)
+    {
+        return(NOEXIST);
+    }
+    return(this->matrixPresent[i + j + this->width].popSick);
 }
 
 /*

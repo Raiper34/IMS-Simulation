@@ -8,6 +8,8 @@
 #include "cell.h"
 #include <vector>
 
+#define NOEXIST 0
+
 using namespace std;
 
 class areaCells {
@@ -16,7 +18,7 @@ public:
     void fillMatrix(void);
     void updateMatrices(void);
     void evolve(int, int);
-    void getPopSick(int, int);
+    int getPopSick(int, int);
     void showInCmd(void);
     ~areaCells(void);       //Destruktor
 
