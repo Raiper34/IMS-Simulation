@@ -24,7 +24,6 @@ public:
     ~areaCells(void);       //Destruktor
 
     int width;
-    int time;
     int infectionTime;
     int imunityTime;
     std::vector<cell> matrixPresent;
