@@ -42,6 +42,13 @@ void display() {
 
     for(int t = 0; t < Time; t++){
         allCells.updateMatrices(cmdLine);
+        cout << t << endl;
+        if(t == 15 || t == 30)
+        {
+            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].inf = 1; //first sick cell in system
+            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].tIn = allCells.infectionTime;
+            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].popSick = 0.1;
+        }
 
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;

@@ -16,7 +16,7 @@ cell::cell(){
     width;
 };
 
-void cell::setData(int popSick, int inf, int imf, int tIn, int tIm){
+void cell::setData(double popSick, int inf, int imf, int tIn, int tIm){
     this->popSick = popSick;
     this->inf = inf;
     this->imf = imf;

@@ -18,10 +18,12 @@ public:
     void fillMatrix(int cmdLine);
     void updateMatrices(int);
     void evolve(int, int);
-    int getPopSick(int, int);
+    double getPopSick(int, int);
     int getInf(int, int);
     void showInCmd(void);
     void endShowCmd(void);
+    double highestValue(double, double, double, double);
+    void countPopSick(int, int);
     ~areaCells(void);       //Destruktor
 
     int width;

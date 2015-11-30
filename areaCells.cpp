@@ -19,7 +19,7 @@ areaCells::areaCells(int width, int infectionTime, int imunityTime) {
 
 void areaCells::fillMatrix(int cmdLine){
     cell tmpCell;
-    tmpCell.setData(0,0,0,0,0);
+    tmpCell.setData(0.0,0,0,0,0);
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
             tmpCell.setPostion(i,j);
@@ -30,6 +30,7 @@ void areaCells::fillMatrix(int cmdLine){
 
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].inf = 1; //first sick cell in system
     this->matrixPresent[(this->width/2) + (this->width/2) * this->width].tIn = this->infectionTime;
+    this->matrixPresent[(this->width/2) + (this->width/2) * this->width].popSick = 0.1;
 
     //todo test, erase it
     this->matrixPresent[(this->width/4) + (this->width/4) * this->width].vac = 1;
@@ -83,7 +84,7 @@ void areaCells::evolve(int i, int j)
     //todo vzorecek
     if(this->matrixPresent[i + j * this->width].inf == 0 && this->matrixPresent[i + j * this->width].imf == 0 && this->matrixPresent[i + j * this->width].vac == 0)
     {
-        if (getInf(i + 1, j) == 1 //todo equation
+        /*if (getInf(i + 1, j) == 1 //todo old rule!!!!!
             || getInf(i - 1, j) == 1
             || getInf(i, j - 1) == 1
             || getInf(i, j + 1) == 1
@@ -94,28 +95,41 @@ void areaCells::evolve(int i, int j)
         {
             //srand(NULL);
             int randomNumber = rand() % 10 + 1;
-            if (randomNumber > 7)
+            if (randomNumber >= 0)
             {
                 this->matrixFuture[i + j * this->width].inf = 1;
                 this->matrixFuture[i + j * this->width].tIn = this->infectionTime;
 
             }
+        }*/
+        this->countPopSick(i, j);
+        if(this->matrixFuture[i + j * this->width].popSick > 0.00001)
+        {
+            this->matrixFuture[i + j * this->width].inf = 1;
+            this->matrixFuture[i + j * this->width].tIn = this->infectionTime;
+            //cout << this->matrixFuture[i + j * this->width].popSick << endl;
         }
+
     }
     else if(this->matrixPresent[i + j * this->width].inf == 1) //infected
     {
         this->matrixFuture[i + j * this->width].tIn--;
-        if(this->matrixFuture[i + j * this->width].tIn == 0)
+        if(this->matrixFuture[i + j * this->width].tIn == 0) //end of infection period
         {
             this->matrixFuture[i + j * this->width].imf = 1;
             this->matrixFuture[i + j * this->width].tIm = this->imunityTime;
             this->matrixFuture[i + j * this->width].inf = 0;
+            this->matrixFuture[i + j * this->width].popSick = 0.0;
+        }
+        else
+        {
+            this->countPopSick(i, j);
         }
     }
     else if(this->matrixPresent[i + j * this->width].imf == 1) //imunited
     {
         this->matrixFuture[i + j * this->width].tIm--;
-        if(this->matrixFuture[i + j * this->width].tIm == 0)
+        if(this->matrixFuture[i + j * this->width].tIm == 0) //end of imunited period
         {
             this->matrixFuture[i + j * this->width].imf = 0;
         }
@@ -125,13 +139,21 @@ void areaCells::evolve(int i, int j)
     //this->matrixPresent[i + j * this->width];
 }
 
-int areaCells::getPopSick(int i, int j)
+double areaCells::getPopSick(int i, int j)
 {
     if(i < 0 || j < 0 || i > this->width || j > this->width)
     {
         return(NOEXIST);
     }
     return(this->matrixPresent[i + j * this->width].popSick);
+}
+
+void areaCells::countPopSick(int i, int j)
+{
+    this->matrixFuture[i + j * this->width].popSick = this->getPopSick(i, j) +
+                                                      (0.44 * this->highestValue(this->getPopSick(i + 1, j), this->getPopSick(i - 1, j), this->getPopSick(i, j + 1), this->getPopSick(i, j - 1))) +
+                                                        (0.04 * this->highestValue(this->getPopSick(i + 1, j + 1), this->getPopSick(i - 1, j - 1), this->getPopSick(i - 1, j + 1), this->getPopSick(i + 1, j - 1)));
+
 }
 
 int areaCells::getInf(int i, int j)
@@ -185,6 +207,13 @@ void areaCells::endShowCmd(void)
         cout << endl;
     }
     //cout << endl;
+}
+
+double areaCells::highestValue(double value1, double value2, double value3, double value4)
+{
+    double highestOne = (value1 + value2 + value3 + value4)/4.0;
+    return highestOne;
+
 }
 
 areaCells::~areaCells(void) {
