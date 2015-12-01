@@ -34,8 +34,8 @@ void areaCells::fillMatrix(int cmdLine){
 
     matrixPresent[(width/2) + (width/2) * width].state = 1;
 
-    /*if(cmdLine == 1)
-        this->showInCmd();*/
+    if(cmdLine == 1)
+        this->showInCmd();
 }
 
 void areaCells::updateMatrices(int cmdLine)
@@ -61,8 +61,8 @@ void areaCells::updateMatrices(int cmdLine)
     }
     populationPercent = population/((double)width * (double)width) * 100;
     //cout << populationPercent << endl;
-    /*if(cmdLine == 1)
-        this->showInCmd();*/
+    if(cmdLine == 1)
+        this->showInCmd();
 }
 
 /*
@@ -76,7 +76,26 @@ void areaCells::evolve(int i, int j)
     {
         if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
         {
-            matrixFuture[i + j * width].state = 1;
+            if(getNeighborsState(i + 1, j) == vegetationTime)
+            {
+                matrixFuture[i + j * width].state = 1;
+                setNeighborsState(i + 1, j, 0);
+            }
+            if(getNeighborsState(i - 1, j) == vegetationTime)
+            {
+                matrixFuture[i + j * width].state = 1;
+                setNeighborsState(i - 1, j, 0);
+            }
+            if(getNeighborsState(i, j + 1) == vegetationTime)
+            {
+                matrixFuture[i + j * width].state = 1;
+                setNeighborsState(i, j + 1, 0);
+            }
+            if(getNeighborsState(i, j - 1) == vegetationTime)
+            {
+                matrixFuture[i + j * width].state = 1;
+                setNeighborsState(i, j - 1, 0);
+            }
         }
         else
         {
@@ -119,6 +138,27 @@ int areaCells::getNeighborsState(int i, int j)
     return(this->matrixPresent[i + j * this->width].state);
 }
 
+void areaCells::setNeighborsState(int i, int j, int state)
+{
+    if(i < 0)
+    {
+        i = this->width - 1;
+    }
+    else if(i >= this->width)
+    {
+        i = 0;
+    }
+    if(j < 0)
+    {
+        j = this->width - 1;
+    }
+    else if(j >= this->width)
+    {
+        j = 0;
+    }
+    this->matrixFuture[i + j * this->width].state = state;
+}
+
 
 
 /*
@@ -126,25 +166,17 @@ int areaCells::getNeighborsState(int i, int j)
  */
 void areaCells::showInCmd(void)
 {
-    /*for(int i = 0; i < this->width; i++)
+    for(int i = 0; i < this->width; i++)
     {
         for (int j = 0; j < this->width; j++)
         {
-            if(this->matrixPresent[i + j * this->width].inf == 1) //if cell is infected
+            if(this->matrixPresent[i + j * this->width].state > 0) //if cell is infected
             {
-                cout << "\033[1;31mI \033[0m ";
-            }
-            else if(this->matrixPresent[i + j * this->width].imf == 1) //cell is imunited
-            {
-                cout << "\033[1;32mR \033[0m ";
-            }
-            else if(this->matrixPresent[i + j * this->width].vac == 1) //cell is vacinated
-            {
-                cout << "\033[0;37mV \033[0m ";
+                cout << "\033[1;31m" << this->matrixPresent[i + j * this->width].state  << " \033[0m ";
             }
             else //cell is supsceptible
             {
-                cout << "\033[1;34mS \033[0m ";
+                cout << "\033[1;34m- \033[0m ";
             }
         }
         cout << endl;
@@ -153,15 +185,15 @@ void areaCells::showInCmd(void)
     {
         cout << "\033[F";
         flush(cout);
-    }*/
+    }
 }
 
 void areaCells::endShowCmd(void)
 {
-    /*for(int i = 0; i < this->width; i++)
+    for(int i = 0; i < this->width; i++)
     {
         cout << endl;
-    }*/
+    }
     //cout << endl;
 }
 

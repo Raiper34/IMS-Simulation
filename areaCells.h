@@ -19,6 +19,7 @@ public:
     void updateMatrices(int);
     void evolve(int, int);
     int getNeighborsState(int i, int j);
+    void setNeighborsState(int i, int j, int state);
 
 
     void showInCmd(void);
