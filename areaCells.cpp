@@ -76,26 +76,7 @@ void areaCells::evolve(int i, int j)
     {
         if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
         {
-            if(getNeighborsState(i + 1, j) == vegetationTime)
-            {
                 matrixFuture[i + j * width].state = 1;
-                setNeighborsState(i + 1, j, 0);
-            }
-            if(getNeighborsState(i - 1, j) == vegetationTime)
-            {
-                matrixFuture[i + j * width].state = 1;
-                setNeighborsState(i - 1, j, 0);
-            }
-            if(getNeighborsState(i, j + 1) == vegetationTime)
-            {
-                matrixFuture[i + j * width].state = 1;
-                setNeighborsState(i, j + 1, 0);
-            }
-            if(getNeighborsState(i, j - 1) == vegetationTime)
-            {
-                matrixFuture[i + j * width].state = 1;
-                setNeighborsState(i, j - 1, 0);
-            }
         }
         else
         {
@@ -105,6 +86,10 @@ void areaCells::evolve(int i, int j)
                 matrixFuture[i + j * width].state = 1;
             }
         }
+    }
+    else if(matrixPresent[i + j * width].state == vegetationTime + 1)
+    {
+        matrixFuture[i + j * width].state = 0;
     }
     else if(matrixPresent[i + j * width].state == deathTime)
     {
