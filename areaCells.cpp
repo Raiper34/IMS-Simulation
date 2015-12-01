@@ -12,10 +12,11 @@
 areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain, int extiction)
 {
     this->width = width;
-    this->deathTime = deathTime;
-    this->vegetationTime = vegetationTime;
+    this->deathTime = deathTime - 1;
+    this->vegetationTime = vegetationTime - 1;
     this->extiction = extiction;
     this->seedRain = seedRain;
+    populationPercent = 1/width;
 
     matrixPresent.reserve(this->width);
     matrixFuture.reserve(this->width);
@@ -31,6 +32,8 @@ void areaCells::fillMatrix(int cmdLine){
         }
     }
 
+    matrixPresent[(width/2) + (width/2) * width].state = 1;
+
     /*if(cmdLine == 1)
         this->showInCmd();*/
 }
@@ -38,6 +41,7 @@ void areaCells::fillMatrix(int cmdLine){
 void areaCells::updateMatrices(int cmdLine)
 {
     cell temp;
+    int population = 0;
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
             this->evolve(i, j);
@@ -49,9 +53,14 @@ void areaCells::updateMatrices(int cmdLine)
         for(int j = 0; j < this->width; j++){
             temp = this->matrixFuture[i + j * this->width];
             this->matrixPresent[i + j * this->width].setState(temp.state);
+            if(temp.state > 0)
+            {
+                population++;
+            }
         }
     }
-
+    populationPercent = population/((double)width * (double)width) * 100;
+    //cout << populationPercent << endl;
     /*if(cmdLine == 1)
         this->showInCmd();*/
 }
@@ -63,7 +72,51 @@ void areaCells::updateMatrices(int cmdLine)
  */
 void areaCells::evolve(int i, int j)
 {
+    if(matrixPresent[i + j * width].state == 0)
+    {
+        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
+        {
+            matrixFuture[i + j * width].state = 1;
+        }
+        else
+        {
+            int randomNumber = rand() % 100 + 1;
+            if(randomNumber <= seedRain)
+            {
+                matrixFuture[i + j * width].state = 1;
+            }
+        }
+    }
+    else if(matrixPresent[i + j * width].state == deathTime)
+    {
+        matrixFuture[i + j * width].state = 0;
+    }
+    else
+    {
+        matrixFuture[i + j * width].state++;
+    }
+    //matrixFuture[i + j * width].state = 1;
+}
 
+int areaCells::getNeighborsState(int i, int j)
+{
+    if(i < 0)
+    {
+        i = this->width - 1;
+    }
+    else if(i >= this->width)
+    {
+        i = 0;
+    }
+    if(j < 0)
+    {
+        j = this->width - 1;
+    }
+    else if(j >= this->width)
+    {
+        j = 0;
+    }
+    return(this->matrixPresent[i + j * this->width].state);
 }
 
 

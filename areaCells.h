@@ -18,6 +18,7 @@ public:
     void fillMatrix(int cmdLine);
     void updateMatrices(int);
     void evolve(int, int);
+    int getNeighborsState(int i, int j);
 
 
     void showInCmd(void);
@@ -30,6 +31,7 @@ public:
     int vegetationTime;
     int extiction;
     int seedRain;
+    double populationPercent;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;
 };

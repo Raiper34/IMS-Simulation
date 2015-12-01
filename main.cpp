@@ -39,10 +39,13 @@ void setup() {
 void display() {
     areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
     allCells.fillMatrix(cmdLine);
+    cout << 0 << "," << allCells.populationPercent << endl;
+    srand(time(NULL));
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for(int t = 0; t < Time; t++){
+    for(int t = 0; t < Time; t++)
+    {
         allCells.updateMatrices(cmdLine);
 
         //DISPLAY THE MATRIX
@@ -55,15 +58,15 @@ void display() {
         glLoadIdentity();
         glViewport(0, 0, 600, 600);
 
-
+        //cout << t << "," << allCells.populationPercent << endl;
         for(int i = 0; i <= allCells.width; i++){
             for(int j = 0; j <= allCells.width; j++){
-                if (allCells.matrixPresent[i + j * allCells.width].state == 0)
-                    glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
-                else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
+                //if (allCells.matrixPresent[i + j * allCells.width].state == 2)
+                    //glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
+                if(allCells.matrixPresent[i + j * allCells.width].state == 0)
                     glColor3f(0.0f, 1.0f, 0.0f);// Let it be green
-                else if(allCells.matrixPresent[i + j * allCells.width].state == 2)
-                    glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
+                //else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
+                    //glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
                 else
                     glColor3f(0.0f, 0.0f, 1.0f);// Let it be blue
 
@@ -83,14 +86,17 @@ void display() {
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
                 */
                 glEnd();
+
             }
         }
         glutSwapBuffers();
+        cout << t + 1 << "," << allCells.populationPercent << endl;
         usleep(speed);
     }
 
-    if(cmdLine == 1)
-        allCells.endShowCmd();
+
+    /*if(cmdLine == 1)
+        allCells.endShowCmd();*/
 }
 
 
@@ -99,7 +105,7 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "v:d:s:e:w:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "v:d:s:e:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch(c)
         {
@@ -109,8 +115,11 @@ int main(int argc, char *argv[])
             case 'd': //death time
                 deathTime = atoi(optarg);
                 break;
-            case 's': //seedRain prohability
+            case 'r': //seedRain prohability
                 seedRain = atoi(optarg);
+                break;
+            case 's': //seedRain prohability
+                speed = atoi(optarg);
                 break;
             case 'e': //exictionTimeProhability
                 extiction = atoi(optarg);
