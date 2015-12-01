@@ -4,30 +4,24 @@
 
 #include "cell.h"
 
-cell::cell(){
-    popSick = 0; //Population sickness =  infected population/ total population
-    inf = 0;    //infection flag
-    imf = 0;    //immune flag
-    tIn = 0;    //time infected
-    tIm = 0;    //time immune
-    vac = 0;
-    i = 0;      //vertical position
-    j = 0;      //horizontal position
-    width;
+cell::cell()
+{
+    i = 0;
+    j = 0;
+    state = 0;
 };
 
-void cell::setData(double popSick, int inf, int imf, int tIn, int tIm){
-    this->popSick = popSick;
-    this->inf = inf;
-    this->imf = imf;
-    this->tIn = tIn;
-    this->tIm = tIm;
-}
-
-void cell::setPostion(int i, int j){
+void cell::setData(int i, int j, int state)
+{
     this->i = i;
     this->j = j;
-};
+    this->state = state;
+}
+
+void cell::setState(int state)
+{
+    this->state = state;
+}
 
 /*cell::~cell(){
 

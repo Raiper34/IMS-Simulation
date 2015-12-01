@@ -16,9 +16,11 @@ using namespace std;
 #define BLANK -1 //argument is blank
 
 //Global variables, needed becouse of display function
-int infectionTime = BLANK;
 int width = BLANK;
-int imunityTime = BLANK;
+int vegetationTime = BLANK;
+int deathTime = BLANK;
+int seedRain = 0;
+int extiction = 0;
 int Time = BLANK;
 int graphic = BLANK;
 int cmdLine = BLANK;
@@ -35,20 +37,13 @@ void setup() {
 }
 
 void display() {
-    areaCells allCells(width, infectionTime, imunityTime);
+    areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
     allCells.fillMatrix(cmdLine);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for(int t = 0; t < Time; t++){
         allCells.updateMatrices(cmdLine);
-        cout << t << endl;
-        if(t == 15 || t == 30)
-        {
-            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].inf = 1; //first sick cell in system
-            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].tIn = allCells.infectionTime;
-            allCells.matrixPresent[(allCells.width/2) + (allCells.width/2) * allCells.width].popSick = 0.1;
-        }
 
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;
@@ -63,11 +58,11 @@ void display() {
 
         for(int i = 0; i <= allCells.width; i++){
             for(int j = 0; j <= allCells.width; j++){
-                if (allCells.matrixPresent[i + j * allCells.width].inf == 1)
+                if (allCells.matrixPresent[i + j * allCells.width].state == 0)
                     glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
-                else if(allCells.matrixPresent[i + j * allCells.width].imf == 1)
+                else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
                     glColor3f(0.0f, 1.0f, 0.0f);// Let it be green
-                else if(allCells.matrixPresent[i + j * allCells.width].vac == 1)
+                else if(allCells.matrixPresent[i + j * allCells.width].state == 2)
                     glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
                 else
                     glColor3f(0.0f, 0.0f, 1.0f);// Let it be blue
@@ -104,21 +99,24 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "w:s:n:m:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "v:d:s:e:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
-        switch (c)
+        switch(c)
         {
-            case 'n': //infection argument
-                infectionTime = atoi(optarg);
+            case 'v': //vegetation time
+                vegetationTime = atoi(optarg);
                 break;
-            case 'w': //infection argument
+            case 'd': //death time
+                deathTime = atoi(optarg);
+                break;
+            case 's': //seedRain prohability
+                seedRain = atoi(optarg);
+                break;
+            case 'e': //exictionTimeProhability
+                extiction = atoi(optarg);
+                break;
+            case 'w': //exictionTimeProhability
                 width = atoi(optarg);
-                break;
-            case 's': //infection argument
-                speed = atoi(optarg);
-                break;
-            case 'm': //imunity argument
-                imunityTime = atoi(optarg);
                 break;
             case 't': //time argument
                 Time = atoi(optarg);
@@ -140,7 +138,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if(infectionTime <= BLANK || imunityTime <= BLANK || Time <= BLANK || width <= BLANK) //check if setings from parameters are not blank
+    if(vegetationTime <= BLANK || deathTime <= BLANK || Time <= BLANK || width <= BLANK) //check if setings from parameters are not blank
     {
         cerr << "Invalid arguments! Type -h for help!" << endl;
         return FAULT;
@@ -166,8 +164,9 @@ int main(int argc, char *argv[])
 
         glutMainLoop();
     }
-    else{
-        areaCells allCells(width, infectionTime, imunityTime);
+    else
+    {
+        areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
         allCells.fillMatrix(cmdLine);
         for(int i = 0; i < Time; i++){
             allCells.updateMatrices(cmdLine);
