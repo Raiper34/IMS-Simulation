@@ -87,17 +87,25 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    else if(matrixPresent[i + j * width].state == vegetationTime + 1)
+    /*else if(matrixPresent[i + j * width].state == vegetationTime + 1)
     {
         matrixFuture[i + j * width].state = 0;
-    }
+    }*/
     else if(matrixPresent[i + j * width].state == deathTime)
     {
         matrixFuture[i + j * width].state = 0;
     }
     else
     {
-        matrixFuture[i + j * width].state++;
+        int randomNumber = rand() % 100 + 1;
+        if(randomNumber <= extiction)
+        {
+            matrixFuture[i + j * width].state = 0;
+        }
+        else
+        {
+            matrixFuture[i + j * width].state = matrixPresent[i + j * width].state + 1;
+        }
     }
     //matrixFuture[i + j * width].state = 1;
 }
