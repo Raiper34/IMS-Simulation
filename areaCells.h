@@ -14,19 +14,25 @@ using namespace std;
 
 class areaCells {
 public:
-    areaCells(int, int, int);        //Konstruktor
+    areaCells(int, int, int, int, int);
     void fillMatrix(int cmdLine);
     void updateMatrices(int);
     void evolve(int, int);
-    int getPopSick(int, int);
-    int getInf(int, int);
+    int getNeighborsState(int i, int j);
+    void setNeighborsState(int i, int j, int state);
+
+
     void showInCmd(void);
     void endShowCmd(void);
+
     ~areaCells(void);       //Destruktor
 
     int width;
-    int infectionTime;
-    int imunityTime;
+    int deathTime;
+    int vegetationTime;
+    int extiction;
+    int seedRain;
+    double populationPercent;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;
 };
