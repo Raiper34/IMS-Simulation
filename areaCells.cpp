@@ -36,6 +36,7 @@ void areaCells::fillMatrix(int cmdLine){
 
     if(cmdLine == 1)
         this->showInCmd();
+    usleep(1000000);
 }
 
 void areaCells::updateMatrices(int cmdLine)
@@ -87,10 +88,10 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    /*else if(matrixPresent[i + j * width].state == vegetationTime + 1)
+    else if(matrixPresent[i + j * width].state == 3)
     {
         matrixFuture[i + j * width].state = 0;
-    }*/
+    }
     else if(matrixPresent[i + j * width].state == deathTime)
     {
         matrixFuture[i + j * width].state = 0;
