@@ -167,14 +167,14 @@ int main(int argc, char *argv[])
             if(cmdLine == 1)
             {
                 allCells.showInCmd();
+                usleep(speed);
             }
-            usleep(speed);
         }
         if(cmdLine == 1)
         {
             allCells.endShowCmd();
         }
     }
-    
+
     exit(SUCCESS);
 }
