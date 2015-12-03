@@ -22,7 +22,7 @@ areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain,
     matrixFuture.reserve(this->width);
 }
 
-void areaCells::fillMatrix(int cmdLine){
+void areaCells::fillMatrix(){
     cell tmpCell;
     for(int i = 0; i < this->width; i++){
         for(int j = 0; j < this->width; j++){
@@ -33,13 +33,9 @@ void areaCells::fillMatrix(int cmdLine){
     }
 
     matrixPresent[(width/2) + (width/2) * width].state = 1;
-
-    if(cmdLine == 1)
-        this->showInCmd();
-    usleep(1000000);
 }
 
-void areaCells::updateMatrices(int cmdLine)
+void areaCells::updateMatrices()
 {
     cell temp;
     int population = 0;
@@ -61,9 +57,6 @@ void areaCells::updateMatrices(int cmdLine)
         }
     }
     populationPercent = population/((double)width * (double)width) * 100;
-    //cout << populationPercent << endl;
-    if(cmdLine == 1)
-        this->showInCmd();
 }
 
 /*
@@ -145,27 +138,6 @@ int areaCells::getNeighborsState(int i, int j)
         j = 0;
     }
     return(this->matrixPresent[i + j * this->width].state);
-}
-
-void areaCells::setNeighborsState(int i, int j, int state)
-{
-    if(i < 0)
-    {
-        i = this->width - 1;
-    }
-    else if(i >= this->width)
-    {
-        i = 0;
-    }
-    if(j < 0)
-    {
-        j = this->width - 1;
-    }
-    else if(j >= this->width)
-    {
-        j = 0;
-    }
-    this->matrixFuture[i + j * this->width].state = state;
 }
 
 

@@ -15,11 +15,10 @@ using namespace std;
 class areaCells {
 public:
     areaCells(int, int, int, int, int);
-    void fillMatrix(int cmdLine);
-    void updateMatrices(int);
+    void fillMatrix();
+    void updateMatrices();
     void evolve(int, int);
     int getNeighborsState(int i, int j);
-    void setNeighborsState(int i, int j, int state);
 
 
     void showInCmd(void);

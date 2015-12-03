@@ -38,7 +38,7 @@ void setup() {
 
 void display() {
     areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
-    allCells.fillMatrix(cmdLine);
+    allCells.fillMatrix();
     cout << 0 << "," << allCells.populationPercent << endl;
     srand(time(NULL));
 
@@ -46,7 +46,7 @@ void display() {
 
     for(int t = 0; t < Time; t++)
     {
-        allCells.updateMatrices(cmdLine);
+        allCells.updateMatrices();
 
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;
@@ -77,14 +77,6 @@ void display() {
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
                 glEnd();
 
-                /*border of the quad
-                glColor3f(0.0f, 0.0f, 0.0f); // Let it be yellow.
-                glBegin(GL_LINE_STRIP);
-                glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
-                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*i);
-                glVertex2f(0.0f+minSize*(j+1), 0.0f+minSize*(i+1));
-                glVertex2f(0.0f+minSize*j, 0.0f+minSize*(i+1));
-                */
                 glEnd();
 
             }
@@ -93,10 +85,6 @@ void display() {
         cout << t + 1 << "," << allCells.populationPercent << endl;
         usleep(speed);
     }
-
-
-    /*if(cmdLine == 1)
-        allCells.endShowCmd();*/
 }
 
 
@@ -152,21 +140,18 @@ int main(int argc, char *argv[])
         cerr << "Invalid arguments! Type -h for help!" << endl;
         return FAULT;
     }
-    if(graphic == BLANK && cmdLine == BLANK)
-        cmdLine = 1;
+
     if(speed <= 0 )
         speed = 1000000;
     else
         speed = 1000000/speed;
 
-    //TODO
-    //cout << "M:" << imunityTime << " N:" << infectionTime << " T:" << Time << " S:" << width << endl;
-
-    if(graphic == 1){
+    if(graphic == 1)
+    {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
         glutInitWindowSize(600,600);
-        glutCreateWindow("Hello World");
+        glutCreateWindow("Celular automata");
 
         setup();
         glutDisplayFunc(display);
@@ -176,14 +161,20 @@ int main(int argc, char *argv[])
     else
     {
         areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
-        allCells.fillMatrix(cmdLine);
+        allCells.fillMatrix();
         for(int i = 0; i < Time; i++){
-            allCells.updateMatrices(cmdLine);
+            allCells.updateMatrices();
+            if(cmdLine == 1)
+            {
+                allCells.showInCmd();
+            }
             usleep(speed);
         }
-        allCells.endShowCmd();
+        if(cmdLine == 1)
+        {
+            allCells.endShowCmd();
+        }
     }
-
-    //return SUCCESS;
+    
     exit(SUCCESS);
 }
