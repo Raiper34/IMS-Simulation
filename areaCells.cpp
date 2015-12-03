@@ -88,13 +88,28 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    else if(matrixPresent[i + j * width].state == 3)
+    /*else if(matrixPresent[i + j * width].state == 3)
     {
         matrixFuture[i + j * width].state = 0;
-    }
+    }*/
     else if(matrixPresent[i + j * width].state == deathTime)
     {
-        matrixFuture[i + j * width].state = 0;
+        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
+        {
+            matrixFuture[i + j * width].state = 1;
+        }
+        else
+        {
+            int randomNumber = rand() % 100 + 1;
+            if(randomNumber <= seedRain)
+            {
+                matrixFuture[i + j * width].state = 1;
+            }
+            else
+            {
+                matrixFuture[i + j * width].state = 0;
+            }
+        }
     }
     else
     {
