@@ -9,7 +9,7 @@
 #include <ctime>
 #include <iostream>
 
-areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain, int extiction)
+areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain, int extiction, int Time)
 {
     this->width = width;
     this->deathTime = deathTime - 1;
@@ -17,6 +17,8 @@ areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain,
     this->extiction = extiction;
     this->seedRain = seedRain;
     populationPercent = 1/width;
+    ocuppiedPercent.reserve(Time);
+    ocuppiedPercent.push_back(populationPercent);
 
     matrixPresent.reserve(this->width);
     matrixFuture.reserve(this->width);
@@ -57,6 +59,7 @@ void areaCells::updateMatrices()
         }
     }
     populationPercent = population/((double)width * (double)width) * 100;
+    this->ocuppiedPercent.push_back(populationPercent);
 }
 
 /*

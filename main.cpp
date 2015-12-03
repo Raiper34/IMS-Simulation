@@ -6,6 +6,8 @@
 #include <GL/glut.h>  // GLUT, include glu.h and gl.h
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <fstream>
+#include <iomanip>
 
 #include "areaCells.h"
 
@@ -21,10 +23,45 @@ int vegetationTime = BLANK;
 int deathTime = BLANK;
 int seedRain = 0;
 int extiction = 0;
+string fileOut = "";
 int Time = BLANK;
 int graphic = BLANK;
 int cmdLine = BLANK;
 int speed = BLANK;
+int avg = BLANK;
+
+void printOutput(areaCells allCells){
+    //Open file or cout
+    ofstream f;
+
+    if(fileOut != "")
+        f.open(fileOut.c_str(), std::ios::out);
+
+    std::ostream & outFile = (f.is_open() ? f : std::cout);
+
+
+    //print to ostream
+    if(avg == 1){
+        double average = 0.0;
+
+        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
+            average += allCells.ocuppiedPercent[i];
+        }
+        average = average/double(allCells.ocuppiedPercent.size());
+        outFile << std::setprecision(5) << average << endl;
+    }
+    else{
+        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
+            outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
+        }
+    }
+
+    //Close file
+    if (f.is_open())
+    {
+        f.close();
+    }
+}
 
 void printHelp()
 {
@@ -38,7 +75,7 @@ void setup() {
 
 void display()
 {
-    areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
+    areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time);
     allCells.fillMatrix();
     srand(time(NULL));
 
@@ -79,10 +116,11 @@ void display()
             }
         }
         glutSwapBuffers();
-        cout << t << "," << allCells.populationPercent << endl;
+        //cout << t << "," << allCells.populationPercent << endl;
         usleep(speed);
         allCells.updateMatrices();
     }
+    printOutput(allCells);
 }
 
 
@@ -91,10 +129,16 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "v:d:s:e:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "af:v:d:s:e:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch(c)
         {
+            case 'a': //vegetation time
+                avg = 1;
+                break;
+            case 'f': //vegetation time
+                fileOut = optarg;
+                break;
             case 'v': //vegetation time
                 vegetationTime = atoi(optarg);
                 break;
@@ -158,7 +202,7 @@ int main(int argc, char *argv[])
     }
     else //start simulation in comandline visualisation or without visualisation
     {
-        areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
+        areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time);
         allCells.fillMatrix();
         for(int i = 0; i < Time; i++) //simulate from time 0 to specified time
         {
@@ -173,7 +217,10 @@ int main(int argc, char *argv[])
         {
             allCells.endShowCmd();
         }
+
+        printOutput(allCells);
     }
+
 
     exit(SUCCESS);
 }

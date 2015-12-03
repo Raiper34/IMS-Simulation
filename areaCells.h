@@ -14,7 +14,7 @@ using namespace std;
 
 class areaCells {
 public:
-    areaCells(int, int, int, int, int);
+    areaCells(int, int, int, int, int, int);
     void fillMatrix();
     void updateMatrices();
     void evolve(int, int);
@@ -34,6 +34,7 @@ public:
     double populationPercent;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;
+    std::vector<double> ocuppiedPercent;
 };
 
 
