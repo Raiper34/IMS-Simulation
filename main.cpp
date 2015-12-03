@@ -36,18 +36,16 @@ void setup() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-void display() {
+void display()
+{
     areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
     allCells.fillMatrix();
-    cout << 0 << "," << allCells.populationPercent << endl;
     srand(time(NULL));
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for(int t = 0; t < Time; t++)
     {
-        allCells.updateMatrices();
-
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;
 
@@ -58,7 +56,6 @@ void display() {
         glLoadIdentity();
         glViewport(0, 0, 600, 600);
 
-        //cout << t << "," << allCells.populationPercent << endl;
         for(int i = 0; i <= allCells.width; i++){
             for(int j = 0; j <= allCells.width; j++){
                 //if (allCells.matrixPresent[i + j * allCells.width].state == 2)
@@ -82,8 +79,9 @@ void display() {
             }
         }
         glutSwapBuffers();
-        cout << t + 1 << "," << allCells.populationPercent << endl;
+        cout << t << "," << allCells.populationPercent << endl;
         usleep(speed);
+        allCells.updateMatrices();
     }
 }
 
@@ -141,12 +139,12 @@ int main(int argc, char *argv[])
         return FAULT;
     }
 
-    if(speed <= 0 )
+    if(speed <= 0 ) //if speed is not specified with arguments
         speed = 1000000;
-    else
+    else //speed of simulation is specified
         speed = 1000000/speed;
 
-    if(graphic == 1)
+    if(graphic == 1) //start simulation in graphic mode using openGL
     {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -158,19 +156,20 @@ int main(int argc, char *argv[])
 
         glutMainLoop();
     }
-    else
+    else //start simulation in comandline visualisation or without visualisation
     {
         areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction);
         allCells.fillMatrix();
-        for(int i = 0; i < Time; i++){
-            allCells.updateMatrices();
-            if(cmdLine == 1)
+        for(int i = 0; i < Time; i++) //simulate from time 0 to specified time
+        {
+            if(cmdLine == 1) //comandline visualisation
             {
                 allCells.showInCmd();
                 usleep(speed);
             }
+            allCells.updateMatrices();
         }
-        if(cmdLine == 1)
+        if(cmdLine == 1) //comandline visualisation add new lines at the end
         {
             allCells.endShowCmd();
         }
