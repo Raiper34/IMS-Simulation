@@ -7,7 +7,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <fstream>
-#include <iomanip>
+
 
 #include "areaCells.h"
 
@@ -48,11 +48,11 @@ void printOutput(areaCells allCells){
             average += allCells.ocuppiedPercent[i];
         }
         average = average/double(allCells.ocuppiedPercent.size());
-        outFile << std::setprecision(5) << average << endl;
+        outFile <<  average << endl;
     }
     else{
         for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
-            outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
+            outFile << i+1 << "," << allCells.ocuppiedPercent[i] << endl;
         }
     }
 
