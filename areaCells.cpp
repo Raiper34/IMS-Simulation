@@ -9,14 +9,17 @@
 #include <ctime>
 #include <iostream>
 
-areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain, int extiction, int Time)
+areaCells::areaCells(int width, int deathTime, int vegetationTime, int seedRain, int extiction, int Time, int intenseExct)
 {
     this->width = width;
     this->deathTime = deathTime - 1;
     this->vegetationTime = vegetationTime - 1;
     this->extiction = extiction;
     this->seedRain = seedRain;
-    populationPercent = 1/width;
+    this->intenseExct = intenseExct;
+    populationPercent = 1/width*width;
+    currentTime = 0;
+    this->Time = Time;
     ocuppiedPercent.reserve(Time);
     ocuppiedPercent.push_back(populationPercent);
 
@@ -37,19 +40,34 @@ void areaCells::fillMatrix(){
     matrixPresent[(width/2) + (width/2) * width].state = 1;
 }
 
+void areaCells::fillWithPlants()
+{
+    for(int i = 0; i < this->width; i++)
+    {
+        for(int j = 0; j < this->width; j++)
+        {
+            matrixPresent[i + j * width].state = rand() % (deathTime - 1) + 1;
+        }
+    }
+}
+
 void areaCells::updateMatrices()
 {
     cell temp;
     int population = 0;
-    for(int i = 0; i < this->width; i++){
-        for(int j = 0; j < this->width; j++){
+    for(int i = 0; i < this->width; i++)
+    {
+        for(int j = 0; j < this->width; j++)
+        {
             this->evolve(i, j);
         }
     }
 
     //Copy the Future matrix to Present matrix after calculations
-    for(int i = 0; i < this->width; i++){
-        for(int j = 0; j < this->width; j++){
+    for(int i = 0; i < this->width; i++)
+    {
+        for(int j = 0; j < this->width; j++)
+        {
             temp = this->matrixFuture[i + j * this->width];
             this->matrixPresent[i + j * this->width].setState(temp.state);
             if(temp.state > 0)
@@ -60,6 +78,7 @@ void areaCells::updateMatrices()
     }
     populationPercent = population/((double)width * (double)width) * 100;
     this->ocuppiedPercent.push_back(populationPercent);
+    currentTime++;
 }
 
 /*
@@ -71,7 +90,7 @@ void areaCells::evolve(int i, int j)
 {
     if(matrixPresent[i + j * width].state == 0)
     {
-        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
+        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime) //empty cell
         {
                 matrixFuture[i + j * width].state = 1;
         }
@@ -84,11 +103,7 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    /*else if(matrixPresent[i + j * width].state == 3)
-    {
-        matrixFuture[i + j * width].state = 0;
-    }*/
-    else if(matrixPresent[i + j * width].state == deathTime)
+    else if(matrixPresent[i + j * width].state == deathTime) //plant cell in time of death is going to die
     {
         if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
         {
@@ -107,10 +122,14 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    else
+    else //plant cell
     {
         int randomNumber = rand() % 100 + 1;
-        if(randomNumber <= extiction)
+        if(currentTime == Time/2  && intenseExct > 0 && randomNumber <= intenseExct)
+        {
+            matrixFuture[i + j * width].state = 0;
+        }
+        else if(randomNumber <= extiction)
         {
             matrixFuture[i + j * width].state = 0;
         }

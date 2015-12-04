@@ -14,8 +14,9 @@ using namespace std;
 
 class areaCells {
 public:
-    areaCells(int, int, int, int, int, int);
+    areaCells(int, int, int, int, int, int, int);
     void fillMatrix();
+    void fillWithPlants();
     void updateMatrices();
     void evolve(int, int);
     int getNeighborsState(int i, int j);
@@ -31,6 +32,9 @@ public:
     int vegetationTime;
     int extiction;
     int seedRain;
+    int intenseExct;
+    int currentTime;
+    int Time;
     double populationPercent;
     std::vector<cell> matrixPresent;
     std::vector<cell> matrixFuture;

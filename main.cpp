@@ -23,6 +23,7 @@ int vegetationTime = BLANK;
 int deathTime = BLANK;
 int seedRain = 0;
 int extiction = 0;
+int intenseExct = 0;
 string fileOut = "";
 int Time = BLANK;
 int graphic = BLANK;
@@ -75,7 +76,7 @@ void setup() {
 
 void display()
 {
-    areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time);
+    areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time, intenseExct);
     allCells.fillMatrix();
     srand(time(NULL));
 
@@ -129,14 +130,14 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "af:v:d:s:e:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "af:v:d:s:e:x:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch(c)
         {
-            case 'a': //vegetation time
+            case 'a':
                 avg = 1;
                 break;
-            case 'f': //vegetation time
+            case 'f': //file to write results
                 fileOut = optarg;
                 break;
             case 'v': //vegetation time
@@ -154,19 +155,22 @@ int main(int argc, char *argv[])
             case 'e': //exictionTimeProhability
                 extiction = atoi(optarg);
                 break;
+            case 'x': //intenseSingleExtiction
+                intenseExct = atoi(optarg);
+                break;
             case 'w': //exictionTimeProhability
                 width = atoi(optarg);
                 break;
             case 't': //time argument
                 Time = atoi(optarg);
                 break;
-            case 'g': //time argument
+            case 'g': //opengl graphical visualisation
                 graphic = 1;
                 break;
-            case 'c': //time argument
+            case 'c': //comandline text visualisation
                 cmdLine = 1;
                 break;
-            case 'h': //time argument
+            case 'h': //help
                 printHelp();
                 return SUCCESS;
             case '?': //somethink unkown as value
@@ -202,7 +206,7 @@ int main(int argc, char *argv[])
     }
     else //start simulation in comandline visualisation or without visualisation
     {
-        areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time);
+        areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time, intenseExct);
         allCells.fillMatrix();
         for(int i = 0; i < Time; i++) //simulate from time 0 to specified time
         {
