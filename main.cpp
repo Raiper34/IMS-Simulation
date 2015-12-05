@@ -7,7 +7,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <fstream>
-
+#include <iomanip>
 
 #include "areaCells.h"
 
@@ -49,11 +49,11 @@ void printOutput(areaCells allCells){
             average += allCells.ocuppiedPercent[i];
         }
         average = average/double(allCells.ocuppiedPercent.size());
-        outFile <<  average << endl;
+        outFile << std::setprecision(5) << average << endl;
     }
     else{
         for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
-            outFile << i+1 << "," << allCells.ocuppiedPercent[i] << endl;
+            outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
         }
     }
 
@@ -86,6 +86,7 @@ void display()
     {
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;
+        GLfloat greenIncrement = 0.5f/deathTime;
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -99,11 +100,11 @@ void display()
                 //if (allCells.matrixPresent[i + j * allCells.width].state == 2)
                     //glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
                 if(allCells.matrixPresent[i + j * allCells.width].state == 0)
-                    glColor3f(0.0f, 1.0f, 0.0f);// Let it be green
+                    glColor3f(0.32157f, 0.0941f, 0.0);// Let it be brown
                 //else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
                     //glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
                 else
-                    glColor3f(0.0f, 0.0f, 1.0f);// Let it be blue
+                    glColor3f(0.0f, 0.470f+(greenIncrement * allCells.matrixPresent[i + j * allCells.width].state), 0.0f);// Let it be blue
 
                 glBegin(GL_QUADS); // 2x2 pixels
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
