@@ -53,7 +53,7 @@ void printOutput(areaCells allCells){
     }
     else{
         for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
-            outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
+            outFile << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
         }
     }
 
