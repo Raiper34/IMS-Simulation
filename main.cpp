@@ -23,6 +23,7 @@ using namespace std;
 #define SUCCESS 0 //exit code on success
 #define BLANK -1 //argument is blank
 #define DEFINED 1 //argument is defined
+#define UNDEFINED -1
 #define EMPTY 0
 #define STONE -1
 
@@ -35,12 +36,12 @@ int extiction = 0;
 int intenseExct = 0;
 string fileOut = "";
 int Time = BLANK;
-int graphic = BLANK;
-int cmdLine = BLANK;
+int graphic = UNDEFINED;
+int cmdLine = UNDEFINED;
 int speed = BLANK;
-int avg = BLANK;
-int mode = BLANK;
-int rock = BLANK;
+int avg = UNDEFINED;
+int mode = UNDEFINED;
+int rock = UNDEFINED;
 
 /*
  * Function, that print results of simulation
@@ -86,7 +87,29 @@ void printOutput(areaCells allCells){
  */
 void printHelp()
 {
-    cout << "<<HELP TODO>>" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "IMS Project - Application of celular automata in biology" << endl;
+    cout << "Authors: Filip Gulan and Marek Marusic" << endl;
+    cout << "E-mails: xgulan00@stud.fit.vutbr.cz and xmarus05@stud.fit.vutbr.cz" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "Parameters:" << endl;
+    cout << "   Required:" << endl;
+    cout << "       -w X: width of matrix" << endl;
+    cout << "       -t X: time of simulation in years" << endl;
+    cout << "       -d X: death time of plant" << endl;
+    cout << "   Optional:" << endl;
+    cout << "       -v X: vegetation time of plant" << endl;
+    cout << "       -r X: probability of seed rain in percent" << endl;
+    cout << "       -e X: exctition probability in percent" << endl;
+    cout << "       -x X: intensity of one time exctition in percent" << endl;
+    cout << "       -f X: file to write simulation results to X file" << endl;
+    cout << "       -s X: speed of simulation, 1 very slow, 1000 very fast" << endl;
+    cout << "       -m: second mode, that fills matrix with plants" << endl;
+    cout << "       -a: get avarange percent of plants in matrix during simulation" << endl;
+    cout << "       -k: stone mode simulation" << endl;
+    cout << "       -g: graphical OPENGL visualisation" << endl;
+    cout << "       -c: command line visualisation" << endl;
+    cout << "       -h: print this help" << endl;
     return;
 }
 
@@ -171,7 +194,7 @@ int main(int argc, char *argv[])
         switch(c)
         {
             case 'a':
-                avg = 1;
+                avg = DEFINED;
                 break;
             case 'f': //file to write results
                 fileOut = optarg;
@@ -192,7 +215,7 @@ int main(int argc, char *argv[])
                 extiction = atoi(optarg);
                 break;
             case 'm': //second mode
-                mode = 1;
+                mode = DEFINED;
                 break;
             case 'x': //intenseSingleExtiction
                 intenseExct = atoi(optarg);
@@ -204,13 +227,13 @@ int main(int argc, char *argv[])
                 Time = atoi(optarg);
                 break;
             case 'k': //time argument
-                rock = 1;
+                rock = DEFINED;
                 break;
             case 'g': //opengl graphical visualisation
-                graphic = 1;
+                graphic = DEFINED;
                 break;
             case 'c': //comandline text visualisation
-                cmdLine = 1;
+                cmdLine = DEFINED;
                 break;
             case 'h': //help
                 printHelp();
