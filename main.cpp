@@ -40,7 +40,6 @@ void printOutput(areaCells allCells){
 
     std::ostream & outFile = (f.is_open() ? f : std::cout);
 
-
     //print to ostream
     if(avg == 1){
         double average = 0.0;
@@ -52,8 +51,9 @@ void printOutput(areaCells allCells){
         outFile << std::setprecision(5) << average << endl;
     }
     else{
+        outFile << "Čas [rok]" << "," << "Obsadená časť [%]" << endl;
         for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
-            outFile << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
+            outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
         }
     }
 

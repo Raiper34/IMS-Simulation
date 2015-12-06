@@ -26,6 +26,8 @@ fig6A:
 fig6B:
 	./simulator -v 4 -d 5 -s 10 -t 100 -w 50 -r 10 -g -f fig6B
 
+fig8:
+	./simulator -v 4 -d 5 -s 10 -t 100 -w 50 -r 10 -e 10 -g -f fig8
 
 clean:
 	rm -f *.o simulator
