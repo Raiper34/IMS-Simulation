@@ -88,24 +88,9 @@ void areaCells::updateMatrices()
  */
 void areaCells::evolve(int i, int j)
 {
-    if(matrixPresent[i + j * width].state == 0)
+    if(matrixPresent[i + j * width].state == 0) //empty
     {
         if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime) //empty cell
-        {
-                matrixFuture[i + j * width].state = 1;
-        }
-        else
-        {
-            int randomNumber = rand() % 100 + 1;
-            if(randomNumber <= seedRain)
-            {
-                matrixFuture[i + j * width].state = 1;
-            }
-        }
-    }
-    else if(matrixPresent[i + j * width].state == deathTime) //plant cell in time of death is going to die
-    {
-        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)
         {
             matrixFuture[i + j * width].state = 1;
         }
@@ -116,29 +101,48 @@ void areaCells::evolve(int i, int j)
             {
                 matrixFuture[i + j * width].state = 1;
             }
-            else
+        }
+    }
+    else {
+        int helpState = matrixPresent[i + j * width].state + 1;
+        if (helpState > deathTime) {
+            helpState = 0;
+            if (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
+                getNeighborsState(i, j + 1) == vegetationTime ||
+                getNeighborsState(i, j - 1) == vegetationTime) //empty cell
             {
-                matrixFuture[i + j * width].state = 0;
+                helpState = 1;
+            }
+            else {
+                int randomNumber = rand() % 100 + 1;
+                if (randomNumber <= seedRain) {
+                    helpState = 1;
+                }
             }
         }
+        else {
+            int randomNumber = rand() % 100 + 1;
+            if (randomNumber <= extiction) {
+                helpState = 0;
+                if (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
+                    getNeighborsState(i, j + 1) == vegetationTime ||
+                    getNeighborsState(i, j - 1) == vegetationTime) //empty cell
+                {
+                    helpState = 1;
+                }
+                else {
+                    int randomNumber = rand() % 100 + 1;
+                    if (randomNumber <= seedRain) {
+                        helpState = 1;
+                    }
+                }
+            }
+            else if (currentTime == Time / 2 && intenseExct > 0 && randomNumber <= intenseExct) {
+                helpState = 0;
+            }
+        }
+        matrixFuture[i + j * width].state = helpState;
     }
-    else //plant cell
-    {
-        int randomNumber = rand() % 100 + 1;
-        if(currentTime == Time/2  && intenseExct > 0 && randomNumber <= intenseExct)
-        {
-            matrixFuture[i + j * width].state = 0;
-        }
-        else if(randomNumber <= extiction)
-        {
-            matrixFuture[i + j * width].state = 0;
-        }
-        else
-        {
-            matrixFuture[i + j * width].state = matrixPresent[i + j * width].state + 1;
-        }
-    }
-    //matrixFuture[i + j * width].state = 1;
 }
 
 int areaCells::getNeighborsState(int i, int j)
