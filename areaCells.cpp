@@ -46,7 +46,7 @@ void areaCells::fillWithPlants()
     {
         for(int j = 0; j < this->width; j++)
         {
-            matrixPresent[i + j * width].state = rand() % (deathTime - 1) + 1;
+            matrixPresent[i + j * width].state = i % deathTime;
         }
     }
 }

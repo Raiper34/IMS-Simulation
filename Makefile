@@ -20,6 +20,12 @@ areaCells.o: areaCells.cpp areaCells.h
 cell.o: cell.cpp cell.h
 	$(CC) -o $@ -c $<  $(CFLAGS)
 
+fig6A:
+	./simulator -v 2 -d 5 -s 10 -t 100 -w 50 -r 10 -g -f fig6A
+
+fig6B:
+	./simulator -v 4 -d 5 -s 10 -t 100 -w 50 -r 10 -g -f fig6B
+
 
 clean:
 	rm -f *.o simulator
