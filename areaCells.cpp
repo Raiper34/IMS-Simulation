@@ -177,13 +177,17 @@ void areaCells::showInCmd(void)
     {
         for (int j = 0; j < this->width; j++)
         {
-            if(this->matrixPresent[i + j * this->width].state > 0) //if cell is infected
+            if(this->matrixPresent[i + j * this->width].state > 0)
             {
-                cout << "\033[1;31m" << this->matrixPresent[i + j * this->width].state  << " \033[0m ";
+                cout << "\033[1;32m" << this->matrixPresent[i + j * this->width].state  << " \033[0m ";
             }
-            else //cell is supsceptible
+            else if(this->matrixPresent[i + j * this->width].state == 0)
             {
-                cout << "\033[1;34m- \033[0m ";
+                cout << "\033[1;35m- \033[0m ";
+            }
+            else
+            {
+                cout << "\033[1;34mO \033[0m ";
             }
         }
         cout << endl;
