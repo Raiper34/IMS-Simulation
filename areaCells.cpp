@@ -90,7 +90,7 @@ void areaCells::evolve(int i, int j)
 {
     if(matrixPresent[i + j * width].state == 0) //empty
     {
-        if(getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime) //empty cell
+        if((vegetationTime != -1) && (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime || getNeighborsState(i, j + 1) == vegetationTime || getNeighborsState(i, j - 1) == vegetationTime)) //empty cell
         {
             matrixFuture[i + j * width].state = 1;
         }
@@ -107,9 +107,9 @@ void areaCells::evolve(int i, int j)
         int helpState = matrixPresent[i + j * width].state + 1;
         if (helpState > deathTime) {
             helpState = 0;
-            if (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
+            if ((vegetationTime != -1) && (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
                 getNeighborsState(i, j + 1) == vegetationTime ||
-                getNeighborsState(i, j - 1) == vegetationTime) //empty cell
+                getNeighborsState(i, j - 1) == vegetationTime)) //empty cell
             {
                 helpState = 1;
             }
@@ -124,9 +124,9 @@ void areaCells::evolve(int i, int j)
             int randomNumber = rand() % 100 + 1;
             if (randomNumber <= extiction) {
                 helpState = 0;
-                if (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
+                if ((vegetationTime != -1) && (getNeighborsState(i + 1, j) == vegetationTime || getNeighborsState(i - 1, j) == vegetationTime ||
                     getNeighborsState(i, j + 1) == vegetationTime ||
-                    getNeighborsState(i, j - 1) == vegetationTime) //empty cell
+                    getNeighborsState(i, j - 1) == vegetationTime)) //empty cell
                 {
                     helpState = 1;
                 }

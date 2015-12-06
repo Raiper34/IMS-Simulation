@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if(vegetationTime <= BLANK || deathTime <= BLANK || Time <= BLANK || width <= BLANK) //check if setings from parameters are not blank
+    if(deathTime <= BLANK || Time <= BLANK || width <= BLANK) //check if setings from parameters are not blank
     {
         cerr << "Invalid arguments! Type -h for help!" << endl;
         return FAULT;
