@@ -16,8 +16,9 @@ using namespace std;
 #define FAULT 1 //exit code, no success
 #define SUCCESS 0 //exit code on success
 #define BLANK -1 //argument is blank
+#define DEFINED 1
 
-//Global variables, needed becouse of display function
+//Global variables, needed becouse of OPENGL display function
 int width = BLANK;
 int vegetationTime = BLANK;
 int deathTime = BLANK;
@@ -30,6 +31,7 @@ int graphic = BLANK;
 int cmdLine = BLANK;
 int speed = BLANK;
 int avg = BLANK;
+int mode = BLANK;
 
 void printOutput(areaCells allCells){
     //Open file or cout
@@ -79,7 +81,10 @@ void display()
     areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time, intenseExct);
     allCells.fillMatrix();
     srand(time(NULL));
-    //allCells.fillWithPlants();
+    if(mode == DEFINED) //second mode, matrix is prefilled with plants
+    {
+        allCells.fillWithPlants();
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -132,7 +137,7 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "af:v:d:s:e:x:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "amf:v:d:s:e:x:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch(c)
         {
@@ -156,6 +161,9 @@ int main(int argc, char *argv[])
                 break;
             case 'e': //exictionTimeProhability
                 extiction = atoi(optarg);
+                break;
+            case 'm': //second mode
+                mode = 1;
                 break;
             case 'x': //intenseSingleExtiction
                 intenseExct = atoi(optarg);
@@ -194,7 +202,7 @@ int main(int argc, char *argv[])
     else //speed of simulation is specified
         speed = 1000000/speed;
 
-    if(graphic == 1) //start simulation in graphic mode using openGL
+    if(graphic == DEFINED) //start simulation in graphic mode using openGL
     {
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -210,9 +218,13 @@ int main(int argc, char *argv[])
     {
         areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time, intenseExct);
         allCells.fillMatrix();
+        if(mode == DEFINED) //second mode, matrix is prefilled with plants
+        {
+            allCells.fillWithPlants();
+        }
         for(int i = 0; i < Time; i++) //simulate from time 0 to specified time
         {
-            if(cmdLine == 1) //comandline visualisation
+            if(cmdLine == DEFINED) //comandline visualisation
             {
                 allCells.showInCmd();
                 usleep(speed);
