@@ -1,3 +1,9 @@
+/*
+ * IMS Project - Application of celular automata in biology
+ * Authors: Filip Gulan and Marek Marusic
+ * E-mails: xgulan00@stud.fit.vutbr.cz and xmarus05@stud.fit.vutbr.cz
+ */
+
 #include <iostream>
 #include <getopt.h>
 #include <unistd.h>
@@ -16,7 +22,9 @@ using namespace std;
 #define FAULT 1 //exit code, no success
 #define SUCCESS 0 //exit code on success
 #define BLANK -1 //argument is blank
-#define DEFINED 1
+#define DEFINED 1 //argument is defined
+#define EMPTY 0
+#define STONE -1
 
 //Global variables, needed becouse of OPENGL display function
 int width = BLANK;
@@ -34,28 +42,34 @@ int avg = BLANK;
 int mode = BLANK;
 int rock = BLANK;
 
+/*
+ * Function, that print results of simulation
+ */
 void printOutput(areaCells allCells){
     //Open file or cout
     ofstream f;
 
-    if(fileOut != "")
+    if(fileOut != "") //file to write is specified
         f.open(fileOut.c_str(), std::ios::out);
 
     std::ostream & outFile = (f.is_open() ? f : std::cout);
 
     //print to ostream
-    if(avg == 1){
+    if(avg == DEFINED) //get avarange percent of plants occupied lattice
+    {
         double average = 0.0;
-
-        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
+        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++)
+        {
             average += allCells.ocuppiedPercent[i];
         }
         average = average/double(allCells.ocuppiedPercent.size());
         outFile << std::setprecision(5) << average << endl;
     }
-    else{
+    else //we want normal values for line graph
+    {
         outFile << "Čas [rok]" << "," << "Obsadená časť [%]" << endl;
-        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++){
+        for(int i = 0; i < allCells.ocuppiedPercent.size(); i++)
+        {
             outFile << i+1 << "," << std::setprecision(5) << allCells.ocuppiedPercent[i] << endl;
         }
     }
@@ -67,33 +81,42 @@ void printOutput(areaCells allCells){
     }
 }
 
+/*
+ * Function to print help to stdin
+ */
 void printHelp()
 {
     cout << "<<HELP TODO>>" << endl;
     return;
 }
 
+/*
+ * Function to set up OPENGL
+ */
 void setup() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
+/*
+ * Function to display OPENGL window
+ */
 void display()
 {
     areaCells allCells(width, deathTime, vegetationTime, seedRain, extiction, Time, intenseExct);
     allCells.fillMatrix();
-    srand(time(NULL));
+    //srand(time(NULL));
     if(mode == DEFINED) //second mode, matrix is prefilled with plants
     {
         allCells.fillWithPlants();
     }
-    if(rock == 1) //second mode, matrix is prefilled with plants
+    if(rock == DEFINED) //second mode, matrix is prefilled with plants
     {
         allCells.fillRock();
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for(int t = 0; t < Time; t++)
+    for(int t = 0; t < Time; t++) //simulate for t years
     {
         //DISPLAY THE MATRIX
         GLfloat minSize = 60.0f/allCells.width;
@@ -106,18 +129,16 @@ void display()
         glLoadIdentity();
         glViewport(0, 0, 600, 600);
 
-        for(int i = 0; i <= allCells.width; i++){
-            for(int j = 0; j <= allCells.width; j++){
-                //if (allCells.matrixPresent[i + j * allCells.width].state == 2)
-                    //glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
-                if(allCells.matrixPresent[i + j * allCells.width].state == 0)
+        for(int i = 0; i <= allCells.width; i++) //for row in matrix
+        {
+            for(int j = 0; j <= allCells.width; j++) //for col in matrix
+            {
+                if(allCells.matrixPresent[i + j * allCells.width].state == EMPTY)
                     glColor3f(0.32157f, 0.0941f, 0.0f);// Let it be brown
-                //else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
-                    //glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
-                else if(allCells.matrixPresent[i + j * allCells.width].state == -1)
-                    glColor3f(0.0f, 0.301f, 0.301f);// Let it be brown
+                else if(allCells.matrixPresent[i + j * allCells.width].state == STONE)
+                    glColor3f(0.0f, 0.301f, 0.301f);// Let it be dark blue
                 else
-                    glColor3f(0.0f, 0.470f+(greenIncrement * allCells.matrixPresent[i + j * allCells.width].state), 0.0f);// Let it be blue
+                    glColor3f(0.0f, 0.470f+(greenIncrement * allCells.matrixPresent[i + j * allCells.width].state), 0.0f);// Let it be green
 
                 glBegin(GL_QUADS); // 2x2 pixels
                 glVertex2f(0.0f+minSize*j, 0.0f+minSize*i);
@@ -131,14 +152,15 @@ void display()
             }
         }
         glutSwapBuffers();
-        //cout << t << "," << allCells.populationPercent << endl;
         usleep(speed);
         allCells.updateMatrices();
     }
     printOutput(allCells);
 }
 
-
+/*
+ * Main function
+ */
 int main(int argc, char *argv[])
 {
     int c; //variable for iteration trought comand line parameters, hold last parameter
@@ -212,6 +234,7 @@ int main(int argc, char *argv[])
     else //speed of simulation is specified
         speed = 1000000/speed;
 
+    srand(time(NULL));
     if(graphic == DEFINED) //start simulation in graphic mode using openGL
     {
         glutInit(&argc, argv);
@@ -232,7 +255,7 @@ int main(int argc, char *argv[])
         {
             allCells.fillWithPlants();
         }
-        if(rock == 1) //second mode, matrix is prefilled with plants
+        if(rock == DEFINED) //mode with stone
         {
             allCells.fillRock();
         }
@@ -245,14 +268,12 @@ int main(int argc, char *argv[])
             }
             allCells.updateMatrices();
         }
-        if(cmdLine == 1) //comandline visualisation add new lines at the end
+        if(cmdLine == DEFINED) //comandline visualisation add new lines at the end
         {
             allCells.endShowCmd();
         }
-
         printOutput(allCells);
     }
-
 
     exit(SUCCESS);
 }
