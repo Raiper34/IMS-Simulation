@@ -19,6 +19,7 @@ public:
     void fillWithPlants();
     void updateMatrices();
     void evolve(int, int);
+    void fillRock();
     int getNeighborsState(int i, int j);
 
 

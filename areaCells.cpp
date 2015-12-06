@@ -51,6 +51,20 @@ void areaCells::fillWithPlants()
     }
 }
 
+void areaCells::fillRock() {
+    int size = this->width/4;
+    int start = this->width/4;
+    int ciselko = size/2;
+    for(int i = start; i < start+size; i++){
+        for(int j = start; j < start+size; j++){
+            int diery = rand() % size + 1;
+            if(diery > 0 && diery < ciselko)
+                continue;
+            this->matrixPresent[i + j * this->width].setState(-1);
+        }
+    }
+}
+
 void areaCells::updateMatrices()
 {
     cell temp;
@@ -142,6 +156,9 @@ void areaCells::evolve(int i, int j)
             }
         }
         matrixFuture[i + j * width].state = helpState;
+    }
+    else if(matrixPresent[i + j * width].state == -1){
+        matrixFuture[i + j * width].state = -1;
     }
 }
 

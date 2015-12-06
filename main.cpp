@@ -32,6 +32,7 @@ int cmdLine = BLANK;
 int speed = BLANK;
 int avg = BLANK;
 int mode = BLANK;
+int rock = BLANK;
 
 void printOutput(areaCells allCells){
     //Open file or cout
@@ -85,6 +86,10 @@ void display()
     {
         allCells.fillWithPlants();
     }
+    if(rock == 1) //second mode, matrix is prefilled with plants
+    {
+        allCells.fillRock();
+    }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -106,9 +111,11 @@ void display()
                 //if (allCells.matrixPresent[i + j * allCells.width].state == 2)
                     //glColor3f(1.0f, 0.0f, 0.0f);// Let it be red
                 if(allCells.matrixPresent[i + j * allCells.width].state == 0)
-                    glColor3f(0.32157f, 0.0941f, 0.0);// Let it be brown
+                    glColor3f(0.32157f, 0.0941f, 0.0f);// Let it be brown
                 //else if(allCells.matrixPresent[i + j * allCells.width].state == 1)
                     //glColor3f(1.0f, 1.0f, 1.0f);// Let it be green
+                else if(allCells.matrixPresent[i + j * allCells.width].state == -1)
+                    glColor3f(0.0f, 0.301f, 0.301f);// Let it be brown
                 else
                     glColor3f(0.0f, 0.470f+(greenIncrement * allCells.matrixPresent[i + j * allCells.width].state), 0.0f);// Let it be blue
 
@@ -137,7 +144,7 @@ int main(int argc, char *argv[])
     int c; //variable for iteration trought comand line parameters, hold last parameter
     char *cvalue = NULL; //variable for value of specific argument (for -a 100, it is 100)
 
-    while((c = getopt(argc, argv, "amf:v:d:s:e:x:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
+    while((c = getopt(argc, argv, "kamf:v:d:s:e:x:r:w:t:hgc")) != -1) //iterate trought all parameters of comand line
     {
         switch(c)
         {
@@ -173,6 +180,9 @@ int main(int argc, char *argv[])
                 break;
             case 't': //time argument
                 Time = atoi(optarg);
+                break;
+            case 'k': //time argument
+                rock = 1;
                 break;
             case 'g': //opengl graphical visualisation
                 graphic = 1;
@@ -221,6 +231,10 @@ int main(int argc, char *argv[])
         if(mode == DEFINED) //second mode, matrix is prefilled with plants
         {
             allCells.fillWithPlants();
+        }
+        if(rock == 1) //second mode, matrix is prefilled with plants
+        {
+            allCells.fillRock();
         }
         for(int i = 0; i < Time; i++) //simulate from time 0 to specified time
         {
