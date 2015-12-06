@@ -103,7 +103,7 @@ void areaCells::evolve(int i, int j)
             }
         }
     }
-    else {
+    else if(matrixPresent[i + j * width].state > 0) {
         int helpState = matrixPresent[i + j * width].state + 1;
         if (helpState > deathTime) {
             helpState = 0;
