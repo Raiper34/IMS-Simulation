@@ -22,20 +22,20 @@ areaCells.o: areaCells.cpp areaCells.h
 cell.o: cell.cpp cell.h
 	$(CC) -o $@ -c $<  $(CFLAGS)
 
-fig6A:
-	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -f fig6A
+experiment1:
+	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -f experiment1
 
-fig6B:
-	./simulator -v 4 -d 5 -s 100 -t 100 -w 50 -r 10 -f fig6B
+experiment2:
+	./simulator -v 4 -d 5 -s 100 -t 100 -w 50 -r 10 -f experiment1
 
-fig7A:
-	./simulator -v 2 -d 5 -s 1 -t 5 -w 11 -c -f fig7A
+obrazok7A:
+	./simulator -v 2 -d 5 -s 1 -t 5 -w 11 -g -f fig7A
 
-fig7B:
-	./simulator -v 4 -d 5 -s 1 -t 7 -w 11 -c -f fig7B
+obrazok7B:
+	./simulator -v 4 -d 5 -s 1 -t 7 -w 11 -g -f fig7B
 
-fig8:
-	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -e 10 -f fig8
+experiment3:
+	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -e 10 -f experiment3
 
 clean:
 	rm -f *.o simulator fig*
