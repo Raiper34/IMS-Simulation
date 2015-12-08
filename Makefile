@@ -8,7 +8,7 @@ OBJ_FILES      = main.o areaCells.o cell.o
 
 all: simulator
 
-run: fig6A fig6B fig7A fig7B fig8
+run: experiment1 experiment2 experiment3 experiment4 experiment5 experiment6
 
 simulator:	$(OBJ_FILES)
 		$(CC) $(OBJ_FILES) -o $@ $(CFLAGS)
@@ -23,21 +23,24 @@ cell.o: cell.cpp cell.h
 	$(CC) -o $@ -c $<  $(CFLAGS)
 
 experiment1:
-	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -f experiment1
+	./simulator -v 2 -d 5 -t 100 -w 50 -r 10 -f experiment1
 
 experiment2:
-	./simulator -v 4 -d 5 -s 100 -t 100 -w 50 -r 10 -f experiment1
-
-obrazok7A:
-	./simulator -v 2 -d 5 -s 1 -t 5 -w 11 -g -f fig7A
-
-obrazok7B:
-	./simulator -v 4 -d 5 -s 1 -t 7 -w 11 -g -f fig7B
+	./simulator -v 4 -d 5 -t 100 -w 50 -r 10 -f experiment2
 
 experiment3:
-	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -e 10 -f experiment3
+	./simulator -v 2 -d 5 -t 100 -w 50 -r 10 -e 10 -f experiment3
+
+experiment4:
+	./simulator -v 2 -d 5 -t 100 -w 50 -e 10 -x 90 -m -f experiment4
+
+experiment5:
+	./simulator -d 5 -s 100 -t 100 -w 50 -r 20 -f experiment5
+
+experiment6:
+	./simulator -v 2 -d 5 -s 100 -t 100 -w 50 -r 10 -k -f experiment6
 
 clean:
-	rm -f *.o simulator fig*
+	rm -f *.o simulator experiment*
 
 .PHONY: clean
